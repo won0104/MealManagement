@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -83,10 +82,8 @@ fun ErrorDialog(showDialog: MutableState<Boolean>, errorMessage: String) {
                 Spacer(modifier = Modifier.height(21.dp))
                 Button(
                     onClick = { showDialog.value = false },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3A6BE4)), // 버튼 내부 색상 설정
                     modifier = Modifier
-                        .size(width = 300.dp, height = 55.dp),
-                    shape = RoundedCornerShape(8.dp)
+                        .size(width = 190.dp, height = 55.dp),
                 ) {
                     Text("닫기", color = Color.White)
                 }
