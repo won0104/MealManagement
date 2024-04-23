@@ -1,5 +1,8 @@
 package com.inconus.mealmanagement.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -34,16 +39,22 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel) {
     val errorMessage by viewModel.errorMessage.observeAsState("")
     val showDialog = remember { mutableStateOf(false) }
 
+    val focusManager = LocalFocusManager.current
     LaunchedEffect(errorMessage) {
         if (errorMessage.isNotEmpty()) {
             showDialog.value = true
         }
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(50.dp),
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { focusManager.clearFocus() }  // 클릭 시 키보드 숨기기
+            .background(Color.Transparent)
+            .padding(50.dp)
+        , // 배경색을 투명하게 설정하여 클릭 가능하도록 함
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
