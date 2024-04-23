@@ -23,10 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.inconus.mealmanagement.vm.AuthViewModel
 
 @Composable
-fun LoginScreen(viewModel: AuthViewModel) {
+fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel) {
     var userId by remember { mutableStateOf("01044455107") }
     var userPassword by remember { mutableStateOf("5107") }
     val loginStatus by viewModel.loginStatus.observeAsState(false)
@@ -85,6 +86,9 @@ fun LoginScreen(viewModel: AuthViewModel) {
 
         if (showDialog.value) {
             ErrorDialog(showDialog, errorMessage)
+        }
+        if(loginStatus){
+            navController.navigate("qrScanner")
         }
     }
 }
