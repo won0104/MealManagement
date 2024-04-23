@@ -20,15 +20,15 @@ class AuthRepository (private val tokenProvider: SharedPreferencesTokenProvider)
                         onSuccess(responseBody)
                         tokenProvider.setToken(responseBody.userDetails.firstOrNull()?.token ?: "")
                     } else { // result가 -1일때
-                        onError("로그인 실패: ${response.body()?.errorMessage}")
+                        onError("로그인 실패 \n ${response.body()?.errorMessage}")
                     }
                 } else { //400 ~ 500 등등 HTTP 응답 에러
-                    onError("로그인 실패: HTTP 코드 ${response.code()}")
+                    onError("로그인 실패 \n HTTP 코드 ${response.code()}")
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                onError("네트워크 오류: ${t.message}")
+                onError("네트워크 오류\n ${t.message}")
                 // IOE..
             }
         })

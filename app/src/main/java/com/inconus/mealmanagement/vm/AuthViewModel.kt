@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.inconus.mealmanagement.auth.LoginRequest
 import com.inconus.mealmanagement.auth.LoginResponse
 import com.inconus.mealmanagement.auth.AuthRepository
@@ -13,6 +12,13 @@ import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
 class AuthViewModel (application: Application): AndroidViewModel(application) {
     private val tokenProvider = SharedPreferencesTokenProvider(getApplication())
     private val repository = AuthRepository(tokenProvider)
+
+    private val _showDialog = MutableLiveData<Boolean>(false)
+    val showDialog = _showDialog
+    fun updateShowDialog(showDialog: Boolean) {
+        _showDialog.value = showDialog
+    }
+
 
     private val _userId = MutableLiveData<String>()
     private val userId: LiveData<String> = _userId

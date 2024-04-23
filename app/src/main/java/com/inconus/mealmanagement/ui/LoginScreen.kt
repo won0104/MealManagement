@@ -4,15 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -28,8 +29,15 @@ import com.inconus.mealmanagement.vm.AuthViewModel
 fun LoginScreen(viewModel: AuthViewModel) {
     var userId by remember { mutableStateOf("01044455107") }
     var userPassword by remember { mutableStateOf("5107") }
-    val loginStatus by viewModel.loginStatus.observeAsState("false")
+    val loginStatus by viewModel.loginStatus.observeAsState(false)
     val errorMessage by viewModel.errorMessage.observeAsState("")
+    val showDialog = remember { mutableStateOf(false) }
+
+    LaunchedEffect(errorMessage) {
+        if (errorMessage.isNotEmpty()) {
+            showDialog.value = true
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -45,7 +53,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
             singleLine = true,
             modifier = Modifier
                 .height(65.dp)
-                .fillMaxWidth(),
+                .width(280.dp),
             shape = RoundedCornerShape(8.dp),
         )
         Spacer(modifier = Modifier.heightIn(10.dp))
@@ -57,14 +65,13 @@ fun LoginScreen(viewModel: AuthViewModel) {
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .height(65.dp)
-                .fillMaxWidth(),
+                .width(280.dp),
             shape = RoundedCornerShape(8.dp),
         )
         Spacer(modifier = Modifier.heightIn(20.dp))
         Button(modifier = Modifier
-            .height(50.dp)
-            .fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
+            .height(55.dp)
+            .width(190.dp),
             onClick = {
                 viewModel.updateUserId(userId)
                 viewModel.updateUserPassword(userPassword)
@@ -76,12 +83,8 @@ fun LoginScreen(viewModel: AuthViewModel) {
 
         Spacer(modifier = Modifier.heightIn(20.dp))
 
-        if (loginStatus==true){
-            Text(" ${viewModel.name.value} : 로그인 성공")
-            Text("${viewModel.token.value}")
-        }
-        if(errorMessage.isNotEmpty()){
-            Text(errorMessage)
+        if (showDialog.value) {
+            ErrorDialog(showDialog, errorMessage)
         }
     }
 }
