@@ -10,16 +10,17 @@ import androidx.navigation.NavHostController
 import com.inconus.mealmanagement.nav.MainNavHost
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.vm.AuthViewModel
+import com.inconus.mealmanagement.vm.QrViewModel
 
 @Composable
-fun BaseScreen(navController: NavHostController, viewModel: AuthViewModel) {
-    val loginStatus by viewModel.loginStatus.observeAsState(false)
+fun BaseScreen(navController: NavHostController, authViewModel: AuthViewModel,qrViewModel: QrViewModel) {
+    val loginStatus by authViewModel.loginStatus.observeAsState(false)
     MealManagementTheme {
         Column(modifier = Modifier.fillMaxSize()) {
             if (loginStatus) {
-                MainScreen(navController)
+                MainScreen(navController,qrViewModel)
             } else {
-                LoginScreen(navController = navController, viewModel = viewModel)
+                LoginScreen(navController = navController, viewModel = authViewModel)
             }
         }
     }

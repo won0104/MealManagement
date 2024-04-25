@@ -18,10 +18,12 @@ import com.inconus.mealmanagement.ui.LoginScreen
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
 import com.inconus.mealmanagement.vm.AuthViewModel
+import com.inconus.mealmanagement.vm.QrViewModel
 import com.inconus.mealmanagement.vm.TestViewModel
 
 class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels()
+    private val qrViewModel:QrViewModel by viewModels()
     //private val testViewModel: TestViewModel by viewModels()
 
 
@@ -40,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     //color = MaterialTheme.colorScheme.background
                 ) {
-                    BaseScreen(navController,authViewModel)
+                    BaseScreen(navController,authViewModel,qrViewModel)
                 }
             }
         }

@@ -13,13 +13,6 @@ class AuthViewModel (application: Application): AndroidViewModel(application) {
     private val tokenProvider = SharedPreferencesTokenProvider(getApplication())
     private val repository = AuthRepository(tokenProvider)
 
-    private val _showDialog = MutableLiveData<Boolean>(false)
-    val showDialog = _showDialog
-    fun updateShowDialog(showDialog: Boolean) {
-        _showDialog.value = showDialog
-    }
-
-
     private val _userId = MutableLiveData<String>()
     private val userId: LiveData<String> = _userId
     fun updateUserId(userId: String) {

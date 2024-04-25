@@ -11,24 +11,27 @@ import com.inconus.mealmanagement.ui.CalculateScreen
 import com.inconus.mealmanagement.ui.LoginScreen
 import com.inconus.mealmanagement.ui.MyPageScreen
 import com.inconus.mealmanagement.ui.QrScannerScreen
+import com.inconus.mealmanagement.util.cameraPermission
 import com.inconus.mealmanagement.vm.AuthViewModel
+import com.inconus.mealmanagement.vm.QrViewModel
 
 @Composable
 fun MainNavHost(
     navController: NavHostController,
-    //authViewModel: AuthViewModel,
+    qrViewModel: QrViewModel,
 ) {
     NavHost(
         navController = navController,
         startDestination = "qrScanner"
     ) {
         composable("qrScanner") {
-            QrScannerScreen()
+            val cameraPermission = cameraPermission(qrViewModel)
+            QrScannerScreen(qrViewModel,cameraPermission)
         }
-        composable("mypage"){
+        composable("myPage"){
             MyPageScreen()
         }
-        composable("Calculate"){
+        composable("calculate"){
             CalculateScreen()
         }
     }
