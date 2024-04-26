@@ -43,6 +43,7 @@ fun ErrorDialog(showDialog: MutableState<Boolean>, errorMessage: String) {
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(
+
                     modifier = Modifier
                         .size(width = 300.dp, height = 200.dp)
                         .clip(RoundedCornerShape(16.dp))

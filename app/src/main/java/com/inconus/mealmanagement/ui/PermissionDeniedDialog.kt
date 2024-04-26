@@ -8,10 +8,11 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 
 @Composable
-fun PermissionDeniedDialog(showDialog: Boolean, onDismiss: () -> Unit, onGoToSettings: () -> Unit) {
-    if (showDialog) {
+fun PermissionDeniedDialog(showDialog: MutableState<Boolean>, onDismiss: () -> Unit, onGoToSettings: () -> Unit) {
+    if (showDialog.value) {
         AlertDialog(
             onDismissRequest = onDismiss,
             title = { Text("권한 필요") },

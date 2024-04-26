@@ -8,11 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.inconus.mealmanagement.ui.CalculateScreen
-import com.inconus.mealmanagement.ui.LoginScreen
 import com.inconus.mealmanagement.ui.MyPageScreen
 import com.inconus.mealmanagement.ui.QrScannerScreen
-import com.inconus.mealmanagement.util.cameraPermission
-import com.inconus.mealmanagement.vm.AuthViewModel
 import com.inconus.mealmanagement.vm.QrViewModel
 
 @Composable
@@ -25,8 +22,8 @@ fun MainNavHost(
         startDestination = "qrScanner"
     ) {
         composable("qrScanner") {
-            val cameraPermission = cameraPermission(qrViewModel)
-            QrScannerScreen(qrViewModel,cameraPermission)
+            //val cameraPermission = cameraPermission(qrViewModel)
+            QrScannerScreen(qrViewModel)
         }
         composable("myPage"){
             MyPageScreen()

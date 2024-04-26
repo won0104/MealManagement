@@ -16,29 +16,47 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.inconus.mealmanagement.vm.QrViewModel
 
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+
 @Composable
 fun cameraPermission(viewModel: QrViewModel): Boolean {
     val context = LocalContext.current
-    var hasCameraPermission by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-        )
-    }
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    var hasCameraPermission by remember { mutableStateOf(
+        ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    )}
 
     val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-        onResult = { isGranted: Boolean ->
-            if(isGranted){
-                hasCameraPermission = isGranted }
-            else{
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(context as Activity, Manifest.permission.CAMERA)) {
-                    viewModel.updateShowPermissionDialog(true)
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        hasCameraPermission = isGranted
+        viewModel.updateCameraPermission(isGranted)
+        if (!isGranted && !ActivityCompat.shouldShowRequestPermissionRationale(context as Activity, Manifest.permission.CAMERA)) {
+            viewModel.updateShowPermissionDialog(true)
+        }
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                val currentPermissionStatus = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                if (hasCameraPermission != currentPermissionStatus) {
+                    hasCameraPermission = currentPermissionStatus
+                    viewModel.updateCameraPermission(currentPermissionStatus)
                 }
             }
         }
-    )
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = Unit) {
         if (!hasCameraPermission) {
             permissionLauncher.launch(Manifest.permission.CAMERA)
         }

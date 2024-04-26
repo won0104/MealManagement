@@ -38,6 +38,16 @@ class QrViewModel: ViewModel() {
         _showErrorDialog.value = true // Automatically show the permission dialog on error
     }
 
+    private val _hasCameraPermission = MutableLiveData<Boolean>()
+    val hasCameraPermission: LiveData<Boolean> = _hasCameraPermission
+
+    fun updateCameraPermission(isGranted: Boolean) {
+        _hasCameraPermission.value = isGranted
+        if (!isGranted) {
+            updateShowPermissionDialog(true)
+        }
+    }
+
     init {
         _errorMessage.observeForever { errorMessage ->
             if (errorMessage.isNotEmpty()) {

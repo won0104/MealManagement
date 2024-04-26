@@ -26,7 +26,9 @@ class QRImageAnalyzer(private val onQrCodeScanned: (Employee) -> Unit, private v
             val employee = Gson().fromJson(result.text, Employee::class.java)
             onQrCodeScanned(employee)
         } catch (e: Exception) {
-            //onError("QR 코드 스캔 실패 \n ${e.localizedMessage} ")
+            if  (e.localizedMessage != null) {
+                    onError("QR 코드 스캔 실패 \n ${e.localizedMessage} ")
+                }
         } finally {
             imageProxy.close()
         }
