@@ -1,5 +1,9 @@
 package com.inconus.mealmanagement.nav
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
@@ -40,3 +44,10 @@ fun NavController.currentRoute(): String? {
     return navBackStackEntry?.destination?.route
 }
 
+//세부 정보 설정 화면으로 이동 (권한 설정)
+fun navigateToSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", context.packageName, null)
+    }
+    context.startActivity(intent)
+}

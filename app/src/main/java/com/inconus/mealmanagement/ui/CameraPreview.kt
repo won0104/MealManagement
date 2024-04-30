@@ -40,8 +40,8 @@ fun CameraPreview(onResult: (Result<Employee>) -> Unit) {
     var cameraSelector by remember { mutableStateOf(CameraSelector.DEFAULT_BACK_CAMERA) }
     val context = LocalContext.current
 
-    // 카메라 설정 및 재설정 로직
-    fun setupCamera(cameraProvider: ProcessCameraProvider, previewView: PreviewView) {
+    // 내부 람다 함수로 카메라 설정 로직을 처리
+    val setupCamera = { cameraProvider: ProcessCameraProvider, previewView: PreviewView ->
         val preview = Preview.Builder().build().also {
             it.setSurfaceProvider(previewView.surfaceProvider)
         }
@@ -77,17 +77,12 @@ fun CameraPreview(onResult: (Result<Employee>) -> Unit) {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
-
                 val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
                 cameraProviderFuture.addListener({
-                    val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-                    setupCamera(cameraProvider, this) // 최초 설정
+                    setupCamera(cameraProviderFuture.get(), this)
                 }, ContextCompat.getMainExecutor(context))
             }
-        }, modifier = Modifier.fillMaxSize(), update = {
-            // 카메라 선택기가 변경될 때마다 카메라를 다시 설정
-            setupCamera(ProcessCameraProvider.getInstance(context).get(), it)
-        })
+        }, modifier = Modifier.fillMaxSize())
 
         // 카메라 전환 아이콘
         Box(

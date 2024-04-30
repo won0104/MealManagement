@@ -1,26 +1,30 @@
 package com.inconus.mealmanagement.vm
 
 import android.app.Application
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.inconus.mealmanagement.MyApplication
 import com.inconus.mealmanagement.auth.LoginRequest
 import com.inconus.mealmanagement.auth.LoginResponse
 import com.inconus.mealmanagement.auth.AuthRepository
 import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
 
-class AuthViewModel (application: Application): AndroidViewModel(application) {
-    private val tokenProvider = SharedPreferencesTokenProvider(getApplication())
+class AuthViewModel : ViewModel() {
+    private val tokenProvider = SharedPreferencesTokenProvider(MyApplication.instance)
     private val repository = AuthRepository(tokenProvider)
 
     private val _userId = MutableLiveData<String>()
-    private val userId: LiveData<String> = _userId
+    val userId: LiveData<String> = _userId
     fun updateUserId(userId: String) {
         _userId.value = userId
     }
 
     private val _userPassword = MutableLiveData<String>()
-    private val userPassword: LiveData<String> = _userPassword
+    val userPassword: LiveData<String> = _userPassword
     fun updateUserPassword(userPassword: String) {
         _userPassword.value = userPassword
     }
@@ -30,7 +34,9 @@ class AuthViewModel (application: Application): AndroidViewModel(application) {
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
-
+    fun updateErrorMessage(errorMessage : String){
+        _errorMessage.value=errorMessage
+    }
 
     private var _token = MutableLiveData<String>()
     val token: LiveData<String> = _token
@@ -65,7 +71,9 @@ class AuthViewModel (application: Application): AndroidViewModel(application) {
     // 네트워크 응답 실패
     private fun handleError(error: String) {
         _errorMessage.value = error
+        Log.d("에러:"," viewModel -  ${errorMessage.value}")
     }
 }
+
 
 

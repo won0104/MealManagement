@@ -21,6 +21,7 @@ import com.inconus.mealmanagement.vm.AuthViewModel
 import com.inconus.mealmanagement.vm.QrViewModel
 import com.inconus.mealmanagement.vm.TestViewModel
 
+
 class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels()
     private val qrViewModel:QrViewModel by viewModels()
@@ -37,30 +38,12 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             MealManagementTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    //color = MaterialTheme.colorScheme.background
                 ) {
                     BaseScreen(navController,authViewModel,qrViewModel)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MealManagementTheme {
-        Greeting("Android")
     }
 }

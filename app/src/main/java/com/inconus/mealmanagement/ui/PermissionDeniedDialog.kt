@@ -1,9 +1,5 @@
 package com.inconus.mealmanagement.ui
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -29,10 +25,4 @@ fun PermissionDeniedDialog(showDialog: MutableState<Boolean>, onDismiss: () -> U
             }
         )
     }
-}
-fun navigateToSettings(context: Context) {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        data = Uri.fromParts("package", context.packageName, null)
-    }
-    context.startActivity(intent)
 }
