@@ -8,7 +8,6 @@ import androidx.camera.view.PreviewView
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.core.content.ContextCompat
-import com.inconus.mealmanagement.util.QRImageAnalyzer
 
 @Composable
 fun CalculateScreen(){

@@ -19,7 +19,7 @@ import com.inconus.mealmanagement.util.Screen
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(
-        Screen.QrScanner,
+        Screen.QrPermission,
         Screen.Calculate,
         Screen.MyPage
 

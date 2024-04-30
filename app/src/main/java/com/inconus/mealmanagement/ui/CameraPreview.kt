@@ -110,4 +110,3 @@ fun CameraPreview(onResult: (Result<Employee>) -> Unit) {
     }
 }
 
-

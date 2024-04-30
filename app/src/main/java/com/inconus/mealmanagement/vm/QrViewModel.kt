@@ -1,11 +1,12 @@
 package com.inconus.mealmanagement.vm
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.inconus.mealmanagement.model.Employee
 
-class QrViewModel: ViewModel() {
+class QrViewModel : ViewModel() {
     private val _showPermissionDialog = MutableLiveData(false)
     val showPermissionDialog: LiveData<Boolean> = _showPermissionDialog
 
@@ -21,6 +22,11 @@ class QrViewModel: ViewModel() {
     private val _employeeData = MutableLiveData<Employee?>()
     val employeeData: LiveData<Employee?> = _employeeData
 
+    fun clearErrorState() {
+        _errorMessage.value = ""
+        _showErrorDialog.value = false
+    }
+
     fun updateShowPermissionDialog(showDialog: Boolean) {
         _showPermissionDialog.value = showDialog
     }
@@ -29,14 +35,20 @@ class QrViewModel: ViewModel() {
         _showErrorDialog.value = showDialog
     }
 
+    fun updateErrorMessage(errorMessage: String) {
+        _errorMessage.value = errorMessage
+    }
+
     fun scanSuccess(employee: Employee) {
         _employeeData.value = employee
     }
 
     fun scanFailure(message: String) {
         _errorMessage.value = message
-        _showErrorDialog.value = true // Automatically show the permission dialog on error
+        Log.e("viewModel", "${_errorMessage.value}")
+        _showErrorDialog.value = true
     }
+
 
     private val _hasCameraPermission = MutableLiveData<Boolean>()
     val hasCameraPermission: LiveData<Boolean> = _hasCameraPermission
@@ -45,14 +57,6 @@ class QrViewModel: ViewModel() {
         _hasCameraPermission.value = isGranted
         if (!isGranted) {
             updateShowPermissionDialog(true)
-        }
-    }
-
-    init {
-        _errorMessage.observeForever { errorMessage ->
-            if (errorMessage.isNotEmpty()) {
-                updateShowErrorDialog(true) // Show permission dialog if there's an error message
-            }
         }
     }
 }
