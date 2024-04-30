@@ -32,9 +32,9 @@ import androidx.compose.ui.window.Dialog
 
 
 @Composable
-fun ErrorDialog(showDialog: MutableState<Boolean>, errorMessage: String) {
-    if (showDialog.value) {
-        Dialog(onDismissRequest = { showDialog.value = false }) {
+fun ErrorDialog(showDialog: Boolean, errorMessage: String, onDismiss: () -> Unit) {
+    if (showDialog) {
+        Dialog(onDismissRequest = { onDismiss() }) {
             Column(
                 modifier = Modifier
                     .width(310.dp)
@@ -82,7 +82,9 @@ fun ErrorDialog(showDialog: MutableState<Boolean>, errorMessage: String) {
 
                 Spacer(modifier = Modifier.height(21.dp))
                 Button(
-                    onClick = { showDialog.value = false },
+                    onClick = {
+                        onDismiss()
+                    },
                     modifier = Modifier
                         .size(width = 190.dp, height = 55.dp),
                 ) {
@@ -97,7 +99,7 @@ fun ErrorDialog(showDialog: MutableState<Boolean>, errorMessage: String) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewDialog() {
-    val showDialog = remember { mutableStateOf(false) }
+    val showDialog = false
 
-    ErrorDialog(showDialog, "에러")
+    ErrorDialog(showDialog, "에러"){}
 }

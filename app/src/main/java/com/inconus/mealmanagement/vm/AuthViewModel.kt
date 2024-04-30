@@ -50,7 +50,7 @@ class AuthViewModel : ViewModel() {
 
         //유효성 검사
         if (id.isEmpty() || password.isEmpty()) {
-            _errorMessage.value = "ID 또는 비밀번호가 입력되지 않았습니다."
+            _errorMessage.value = "로그인 실패 \n ID 또는 비밀번호가 입력되지 않았습니다."
             return
         }
 

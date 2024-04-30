@@ -1,5 +1,6 @@
 package com.inconus.mealmanagement.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,12 +26,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.vm.AuthViewModel
+import com.inconus.mealmanagement.vm.DummyAuthViewModel
 
 @Composable
 fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel) {
@@ -41,13 +45,22 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel) {
         val loginStatus by viewModel.loginStatus.observeAsState(false)
         val errorMessage by viewModel.errorMessage.observeAsState("")
         val showDialog = remember { mutableStateOf(false) }
-
         val focusManager = LocalFocusManager.current
+
+        //Error 발생시 다이얼로그 표시
         LaunchedEffect(errorMessage) {
-            if (errorMessage.isNotEmpty()) {
-                showDialog.value = true
-            }
+            showDialog.value = errorMessage.isNotEmpty()
         }
+
+        if (showDialog.value) {
+            ErrorDialog(showDialog.value, errorMessage,
+                onDismiss = {
+                    showDialog.value = false
+                    viewModel.updateErrorMessage("")
+                }
+            )
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -86,7 +99,6 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel) {
             Button(modifier = Modifier
                 .height(55.dp)
                 .width(190.dp),
-                //colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6750A4)),
                 onClick = {
                     viewModel.updateUserId(userId)
                     viewModel.updateUserPassword(userPassword)
@@ -98,19 +110,10 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel) {
 
             Spacer(modifier = Modifier.heightIn(20.dp))
 
-            if (showDialog.value) {
-                ErrorDialog(showDialog, errorMessage)
-            }
+            // 로그인 성공 시 페이지 이동
             if (loginStatus) {
                 navController.navigate("qrScanner")
             }
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewLoginScreen() {
-//    val viewModel = androidViewModel();
-//    LoginScreen(viewModel,testViewModel)
-//}
