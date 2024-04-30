@@ -13,7 +13,7 @@ import com.inconus.mealmanagement.R
 
 sealed class Screen(val route: String, val icon: @Composable () -> Painter, val title: String) {
     data object Login : Screen("login", { painterResource(R.drawable.baseline_login_24) },"Login")
-    data object QrScanner : Screen("qrScanner",{ painterResource(R.drawable.baseline_qr_code_scanner_24) }, "QR코드")
+    data object QrPermission : Screen("qrPermission",{ painterResource(R.drawable.baseline_qr_code_scanner_24) }, "QR코드")
     data object MyPage : Screen("myPage", { painterResource(R.drawable.baseline_account_circle_24) }, "내 정보")
     data object Calculate : Screen("calculate", { painterResource(R.drawable.baseline_calculate_24) }, "정산")
 }
