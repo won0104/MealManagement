@@ -1,6 +1,8 @@
 package com.inconus.mealmanagement.vm
 
 import android.util.Log
+import androidx.camera.core.CameraSelector
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -59,4 +61,16 @@ class QrViewModel : ViewModel() {
             updateShowPermissionDialog(true)
         }
     }
+
+    var cameraSelector = MutableLiveData(CameraSelector.DEFAULT_BACK_CAMERA)
+        private set
+
+    fun toggleCamera() {
+        cameraSelector.value = if (cameraSelector.value == CameraSelector.DEFAULT_BACK_CAMERA) {
+            CameraSelector.DEFAULT_FRONT_CAMERA
+        } else {
+            CameraSelector.DEFAULT_BACK_CAMERA
+        }
+    }
+
 }
