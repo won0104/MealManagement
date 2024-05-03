@@ -1,4 +1,4 @@
-package com.inconus.mealmanagement.ui
+package com.inconus.mealmanagement.ui.qr
 
 import android.content.Context
 import android.util.Log
@@ -25,10 +25,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.inconus.mealmanagement.R
 import com.inconus.mealmanagement.model.Employee
+import com.inconus.mealmanagement.ui.ErrorDialog
 import com.inconus.mealmanagement.vm.QrViewModel
 
 @Composable
-fun QrScannerScreen(viewModel: QrViewModel) {
+fun QrScanningScreen(viewModel: QrViewModel) {
     val context = LocalContext.current
     val errorMessage by viewModel.errorMessage.observeAsState("")
     val cameraSelector by viewModel.cameraSelector.observeAsState(CameraSelector.DEFAULT_BACK_CAMERA)
@@ -57,7 +58,7 @@ fun QrScannerScreen(viewModel: QrViewModel) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomStart
     ) {
-        CameraPreview(cameraSelector) { result ->
+        QrCodeCameraPreview(cameraSelector) { result ->
             handleCameraResult(result, viewModel, context)
         }
     }

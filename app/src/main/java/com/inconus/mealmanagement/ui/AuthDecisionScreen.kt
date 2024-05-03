@@ -13,12 +13,12 @@ import com.inconus.mealmanagement.vm.QrViewModel
 
 
 @Composable
-fun BaseScreen(navController: NavHostController, authViewModel: AuthViewModel,qrViewModel: QrViewModel) {
+fun AuthDecisionScreen(navController: NavHostController, authViewModel: AuthViewModel, qrViewModel: QrViewModel) {
     val loginStatus by authViewModel.loginStatus.observeAsState(false)
     MealManagementTheme {
         Column(modifier = Modifier.fillMaxSize()) {
             if (loginStatus) {
-                MainScreen(navController,qrViewModel,authViewModel)
+                AuthenticatedMainScreen(navController,qrViewModel,authViewModel)
             } else {
                 LoginScreen(navController = navController, viewModel = authViewModel)
                 //AuthNavHost(navController, authViewModel)

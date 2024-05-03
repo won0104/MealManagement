@@ -10,7 +10,7 @@ import com.inconus.mealmanagement.vm.QrViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController,qrViewModel: QrViewModel,authViewModel: AuthViewModel) {
+fun AuthenticatedMainScreen(navController: NavHostController, qrViewModel: QrViewModel, authViewModel: AuthViewModel) {
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) {

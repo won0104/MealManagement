@@ -1,4 +1,4 @@
-package com.inconus.mealmanagement.ui
+package com.inconus.mealmanagement.ui.qr
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button

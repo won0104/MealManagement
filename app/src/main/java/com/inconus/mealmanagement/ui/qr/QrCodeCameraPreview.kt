@@ -1,4 +1,4 @@
-package com.inconus.mealmanagement.ui
+package com.inconus.mealmanagement.ui.qr
 
 import android.util.Log
 import android.view.ViewGroup
@@ -22,7 +22,7 @@ import com.inconus.mealmanagement.model.Employee
 import com.inconus.mealmanagement.util.QRImageAnalyzer
 
 @Composable
-fun CameraPreview(
+fun QrCodeCameraPreview(
     cameraSelector: CameraSelector,
     onResult: (Result<Employee>) -> Unit
 ) {

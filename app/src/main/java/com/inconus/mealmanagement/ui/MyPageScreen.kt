@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavHostController
 import com.inconus.mealmanagement.vm.AuthViewModel
 
 @Composable
@@ -28,5 +27,4 @@ fun MyPageScreen(viewModel :AuthViewModel) {
             Text(text = "Logout")
         }
     }
-
 }

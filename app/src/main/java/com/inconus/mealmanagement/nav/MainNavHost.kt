@@ -1,9 +1,5 @@
 package com.inconus.mealmanagement.nav
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
@@ -13,8 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.inconus.mealmanagement.ui.CalculateScreen
 import com.inconus.mealmanagement.ui.MyPageScreen
-import com.inconus.mealmanagement.ui.QrPermissionScreen
-import com.inconus.mealmanagement.ui.QrScannerScreen
+import com.inconus.mealmanagement.ui.qr.CameraAccessRequestScreen
+import com.inconus.mealmanagement.ui.qr.QrScanningScreen
 import com.inconus.mealmanagement.vm.AuthViewModel
 import com.inconus.mealmanagement.vm.QrViewModel
 
@@ -29,10 +25,10 @@ fun MainNavHost(
         startDestination = "qrPermission"
     ) {
         composable("qrPermission") {
-            QrPermissionScreen(qrViewModel, navController)
+            CameraAccessRequestScreen(qrViewModel, navController)
         }
         composable("qrScanner") {
-            QrScannerScreen(qrViewModel)
+            QrScanningScreen(qrViewModel)
         }
         composable("myPage"){
             MyPageScreen(authViewModel)

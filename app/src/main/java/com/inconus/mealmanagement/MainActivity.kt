@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.inconus.mealmanagement.ui.BaseScreen
+import com.inconus.mealmanagement.ui.AuthDecisionScreen
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
 import com.inconus.mealmanagement.vm.AuthViewModel
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    BaseScreen(navController,authViewModel,qrViewModel)
+                    AuthDecisionScreen(navController,authViewModel,qrViewModel)
                 }
             }
         }
