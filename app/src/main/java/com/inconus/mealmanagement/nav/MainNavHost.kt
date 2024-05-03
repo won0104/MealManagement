@@ -47,10 +47,3 @@ fun NavController.currentRoute(): String? {
     return navBackStackEntry?.destination?.route
 }
 
-//세부 정보 설정 화면으로 이동 (권한 설정)
-fun navigateToSettings(context: Context) {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        data = Uri.fromParts("package", context.packageName, null)
-    }
-    context.startActivity(intent)
-}

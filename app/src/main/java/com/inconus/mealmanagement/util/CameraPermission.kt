@@ -3,6 +3,7 @@ package com.inconus.mealmanagement.util
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -29,6 +30,8 @@ fun cameraPermission(viewModel: QrViewModel): Boolean {
     var hasCameraPermission by remember { mutableStateOf(
         ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     )}
+    Log.d("확인용","cameraPermission 실행")
+    Log.d("확인용","cameraPermission의 ${hasCameraPermission}")
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -40,9 +43,17 @@ fun cameraPermission(viewModel: QrViewModel): Boolean {
         }
     }
 
+    LaunchedEffect(Unit) {
+        if (!hasCameraPermission) {
+            Log.d("확인용","권한 요청 창 생성")
+            permissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
+                Log.d("확인용","DisposableEffect - ON_RESUME")
                 val currentPermissionStatus = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
                 if (hasCameraPermission != currentPermissionStatus) {
                     hasCameraPermission = currentPermissionStatus
@@ -55,12 +66,5 @@ fun cameraPermission(viewModel: QrViewModel): Boolean {
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
-
-    LaunchedEffect(key1 = Unit) {
-        if (!hasCameraPermission) {
-            permissionLauncher.launch(Manifest.permission.CAMERA)
-        }
-    }
-
     return hasCameraPermission
 }

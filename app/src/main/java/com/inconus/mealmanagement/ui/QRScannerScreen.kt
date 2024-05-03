@@ -33,10 +33,12 @@ fun QrScannerScreen(viewModel: QrViewModel) {
     val errorMessage by viewModel.errorMessage.observeAsState("")
     val cameraSelector by viewModel.cameraSelector.observeAsState(CameraSelector.DEFAULT_BACK_CAMERA)
 
-    // 화면 진입 시 에러 메시지 및 다이얼로그 초기화
+    // 화면 진입 시 1번만 에러 메시지 및 다이얼로그 초기화
     LaunchedEffect(Unit) {
         viewModel.clearErrorState()
+        Log.d("확인용","안")
     }
+    Log.d("확인용","밖")
 
     val showErrorDialog = viewModel.showErrorDialog.observeAsState(false)
 
@@ -46,17 +48,10 @@ fun QrScannerScreen(viewModel: QrViewModel) {
     }
 
     if (showErrorDialog.value) {
-        Log.d("에러", "screen errorDialog가 true 일 때, - ${errorMessage}")
         ErrorDialog(showErrorDialog.value, errorMessage,
             onDismiss = { viewModel.clearErrorState() }
         )
     }
-
-//    // 카메라 선택기의 변화를 감지하여 CameraPreview 다시 로드
-//    val cameraSelector by viewModel.cameraSelector.observeAsState(initial = CameraSelector.DEFAULT_BACK_CAMERA)
-//    LaunchedEffect(cameraSelector) {
-//        // 카메라 선택기가 변경될 때마다 여기에 반응할 코드
-//    }
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -75,13 +70,12 @@ fun QrScannerScreen(viewModel: QrViewModel) {
             .background(Color(0xFF6650a4))
             .clickable {
                 viewModel.toggleCamera()
-                Toast.makeText(context, "카메라 전환!", Toast.LENGTH_SHORT).show()
             },
         contentAlignment = Alignment.Center
     ) {
         Icon(
             painter = painterResource(id = R.drawable.baseline_cameraswitch_24),
-            contentDescription = "Camera Switch",
+            contentDescription = "카메라 전환 아이콘",
             modifier = Modifier.size(33.dp),
             tint = Color.White
         )

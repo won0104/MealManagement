@@ -37,11 +37,13 @@ fun CameraPreview(
         ViewGroup.LayoutParams.MATCH_PARENT
     )
 
+    // 전면/후면 카메라 선택 될 때 마다 카메라 다시 바인딩
     LaunchedEffect(cameraSelector) {
         val cameraProvider = cameraProviderFuture.get()
         val preview = Preview.Builder().build().also {
             it.setSurfaceProvider(previewView.surfaceProvider)
         }
+
         val imageAnalyzer = ImageAnalysis.Builder()
             .build()
             .also {
