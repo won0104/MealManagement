@@ -12,4 +12,8 @@ class SharedPreferencesTokenProvider(context: Context) : TokenProvider {
     fun setToken(token: String) {
         sharedPreferences.edit().putString("token", token).apply()
     }
+
+    fun deleteToken(){
+        sharedPreferences.edit().remove("token").apply()
+    }
 }

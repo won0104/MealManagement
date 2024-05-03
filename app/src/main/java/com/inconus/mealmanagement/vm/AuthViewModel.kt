@@ -73,6 +73,16 @@ class AuthViewModel : ViewModel() {
         _errorMessage.value = error
         Log.d("에러:"," viewModel -  ${errorMessage.value}")
     }
+
+    fun logoutUser(){
+        tokenProvider.deleteToken()
+        _loginStatus.value = false
+        _userId.value = ""
+        _userPassword.value = ""
+        _token.value = ""
+        _name.value = ""
+        _errorMessage.value = ""
+    }
 }
 
 

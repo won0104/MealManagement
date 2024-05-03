@@ -15,12 +15,14 @@ import com.inconus.mealmanagement.ui.CalculateScreen
 import com.inconus.mealmanagement.ui.MyPageScreen
 import com.inconus.mealmanagement.ui.QrPermissionScreen
 import com.inconus.mealmanagement.ui.QrScannerScreen
+import com.inconus.mealmanagement.vm.AuthViewModel
 import com.inconus.mealmanagement.vm.QrViewModel
 
 @Composable
 fun MainNavHost(
     navController: NavHostController,
     qrViewModel: QrViewModel,
+    authViewModel : AuthViewModel
 ) {
     NavHost(
         navController = navController,
@@ -33,7 +35,7 @@ fun MainNavHost(
             QrScannerScreen(qrViewModel)
         }
         composable("myPage"){
-            MyPageScreen()
+            MyPageScreen(authViewModel)
         }
         composable("calculate"){
             CalculateScreen()

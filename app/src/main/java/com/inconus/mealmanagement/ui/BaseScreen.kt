@@ -18,9 +18,10 @@ fun BaseScreen(navController: NavHostController, authViewModel: AuthViewModel,qr
     MealManagementTheme {
         Column(modifier = Modifier.fillMaxSize()) {
             if (loginStatus) {
-                MainScreen(navController,qrViewModel)
+                MainScreen(navController,qrViewModel,authViewModel)
             } else {
                 LoginScreen(navController = navController, viewModel = authViewModel)
+                //AuthNavHost(navController, authViewModel)
             }
         }
     }
