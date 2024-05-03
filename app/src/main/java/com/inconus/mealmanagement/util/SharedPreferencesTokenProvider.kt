@@ -9,11 +9,11 @@ class SharedPreferencesTokenProvider(context: Context) : TokenProvider {
         return sharedPreferences.getString("token", null)
     }
 
-    fun setToken(token: String) {
+    override fun setToken(token: String) {
         sharedPreferences.edit().putString("token", token).apply()
     }
 
-    fun deleteToken(){
+    override fun deleteToken(){
         sharedPreferences.edit().remove("token").apply()
     }
 }

@@ -1,4 +1,4 @@
-package com.inconus.mealmanagement.vm
+package com.inconus.mealmanagement.test
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

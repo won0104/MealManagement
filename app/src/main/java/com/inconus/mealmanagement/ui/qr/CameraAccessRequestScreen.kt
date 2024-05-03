@@ -20,14 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.inconus.mealmanagement.util.cameraPermission
+import com.inconus.mealmanagement.util.manageCameraPermission
 import com.inconus.mealmanagement.vm.QrViewModel
 
+// 카메라 권한 확인
 @Composable
 fun CameraAccessRequestScreen(viewModel: QrViewModel, navController: NavController) {
     val context = LocalContext.current
-    val cameraPermission = cameraPermission(viewModel)
-    Log.d("확인용","퍼미션 ${cameraPermission}")
+    // 카메라 접근 권한 확인
+    val cameraPermission = manageCameraPermission(viewModel)
+    Log.d("확인용","카메라 접근 권한 (screen): $cameraPermission")
 //    val showPermissionDialog =
 //        viewModel.showPermissionDialog.observeAsState(false) as MutableState<Boolean>
 //
@@ -39,13 +41,11 @@ fun CameraAccessRequestScreen(viewModel: QrViewModel, navController: NavControll
 //            navigateToSettings(context)
 //            viewModel.updateShowPermissionDialog(false)
 //        })
-
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         if (cameraPermission) {
-
             Button(onClick = {navController.navigate("qrScanner")}) {
                 Text("QR 촬영하기")
             }
