@@ -1,4 +1,4 @@
-package com.inconus.mealmanagement.ui.qr
+package com.inconus.mealmanagement.ui
 
 import android.util.Log
 import android.view.ViewGroup

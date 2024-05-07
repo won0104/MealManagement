@@ -1,4 +1,4 @@
-package com.inconus.mealmanagement.ui.qr
+package com.inconus.mealmanagement.ui
 
 import android.content.Context
 import android.content.Intent
@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,18 +31,17 @@ fun CameraAccessRequestScreen(viewModel: QrViewModel, navController: NavControll
     val context = LocalContext.current
     // 카메라 접근 권한 확인
     val cameraPermission = manageCameraPermission(viewModel)
-    Log.d("확인용","카메라 접근 권한 (screen): $cameraPermission")
-//    val showPermissionDialog =
-//        viewModel.showPermissionDialog.observeAsState(false) as MutableState<Boolean>
-//
-//
-//    PermissionDeniedDialog(
-//        showPermissionDialog,
-//        onDismiss = { viewModel.updateShowPermissionDialog(false) },
-//        onGoToSettings = {
-//            navigateToSettings(context)
-//            viewModel.updateShowPermissionDialog(false)
-//        })
+    val showPermissionDialog =
+        viewModel.showPermissionDialog.observeAsState(false) as MutableState<Boolean>
+
+
+    PermissionDeniedDialog(
+        showPermissionDialog,
+        onDismiss = { viewModel.updateShowPermissionDialog(false) },
+        onGoToSettings = {
+            navigateToSettings(context)
+            viewModel.updateShowPermissionDialog(false)
+        })
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

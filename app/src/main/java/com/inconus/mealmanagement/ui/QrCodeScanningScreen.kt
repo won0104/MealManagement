@@ -1,4 +1,4 @@
-package com.inconus.mealmanagement.ui.qr
+package com.inconus.mealmanagement.ui
 
 import android.content.Context
 import android.util.Log
@@ -25,7 +25,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.inconus.mealmanagement.R
 import com.inconus.mealmanagement.model.Employee
-import com.inconus.mealmanagement.ui.ErrorDialog
 import com.inconus.mealmanagement.vm.QrViewModel
 
 @Composable
@@ -82,7 +81,6 @@ fun QrScanningScreen(viewModel: QrViewModel) {
         )
     }
 }
-
 
 // QR 스캔 결과 처리
 private fun handleCameraResult(
