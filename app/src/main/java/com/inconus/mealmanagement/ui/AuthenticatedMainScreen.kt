@@ -12,7 +12,7 @@ import com.inconus.mealmanagement.vm.QrViewModel
 @Composable
 fun AuthenticatedMainScreen(navController: NavHostController, qrViewModel: QrViewModel, authViewModel: AuthViewModel) {
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
+        bottomBar = { BottomNavigationBar(navController,qrViewModel) }
     ) {
         MainNavHost(navController, qrViewModel, authViewModel)
     }
