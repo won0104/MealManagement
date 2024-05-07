@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 //                            AuthenticatedMainScreen(navController,qrViewModel,authViewModel)
                             //todo 3줄 짜리라 그냥 메인에 올렸어요
                             Scaffold(
-                                bottomBar = { BottomNavigationBar(navController) }
+                                bottomBar = { BottomNavigationBar(navController, qrViewModel) }
                             ) {
                                 MainNavHost(navController, qrViewModel, authViewModel)
                             }

@@ -13,7 +13,7 @@ import com.inconus.mealmanagement.vm.QrViewModel
 fun AuthenticatedMainScreen(navController: NavHostController, qrViewModel: QrViewModel, authViewModel: AuthViewModel) {
     //todo 아래 두 네비는 호이스팅 한 navController를 넘겨준거라 괜찮지만 MainActivity로 올렸어요
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
+        bottomBar = { BottomNavigationBar(navController,qrViewModel) }
     ) {
         MainNavHost(navController, qrViewModel, authViewModel)
     }

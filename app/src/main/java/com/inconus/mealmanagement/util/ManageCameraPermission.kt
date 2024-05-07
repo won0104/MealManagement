@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -22,39 +23,44 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 
 @Composable
-fun cameraPermission(viewModel: QrViewModel): Boolean {
+fun manageCameraPermission (viewModel: QrViewModel): Boolean {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
+    // 카메라 접근 권한, 초기값은 현재 권한 상태
     var hasCameraPermission by remember { mutableStateOf(
         ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     )}
-    Log.d("확인용","cameraPermission 실행")
-    Log.d("확인용","cameraPermission의 ${hasCameraPermission}")
+    // 권한 확인 : ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) / -1이면 권한 없음 0이면 권한 있음
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         hasCameraPermission = isGranted
         viewModel.updateCameraPermission(isGranted)
-        if (!isGranted && !ActivityCompat.shouldShowRequestPermissionRationale(context as Activity, Manifest.permission.CAMERA)) {
+        // shouldShowRequestPermissionRationale : 처음 거절시 true, 두번 거절하면 false
+        // 권한 X , 완전 거절 (2번 이상) 하면 다이얼로그
+        val shouldShowRationale = ActivityCompat.shouldShowRequestPermissionRationale(context as Activity, Manifest.permission.CAMERA)
+        if (!isGranted && !shouldShowRationale) {
+            //Log.d("확인용","권한 : $shouldShowRationale")
             viewModel.updateShowPermissionDialog(true)
+            //Toast.makeText(context,"설정에서 카메라 권한을 허용해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    LaunchedEffect(Unit) {
+    // 한번만 수행
+    LaunchedEffect(true) {
         if (!hasCameraPermission) {
             Log.d("확인용","권한 요청 창 생성")
             permissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
 
+    // 설정에서 돌아왔을 때, 카메라 권한이 허용되어 있으면 새로고침
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                Log.d("확인용","DisposableEffect - ON_RESUME")
+            if (event == Lifecycle.Event.ON_RESUME) { // 권한을 확인 했을 때, 0인지 확인
                 val currentPermissionStatus = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                if (hasCameraPermission != currentPermissionStatus) {
+                if (hasCameraPermission != currentPermissionStatus) { // 값이 바뀌면 업데이트
                     hasCameraPermission = currentPermissionStatus
                     viewModel.updateCameraPermission(currentPermissionStatus)
                 }
