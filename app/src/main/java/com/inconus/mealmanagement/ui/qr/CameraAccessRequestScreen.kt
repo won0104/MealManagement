@@ -45,7 +45,6 @@ fun CameraAccessRequestScreen(viewModel: QrViewModel, navController: NavControll
         contentAlignment = Alignment.Center
     ) {
         if (cameraPermission) {
-
             Button(onClick = {navController.navigate("qrScanner")}) {
                 Text("QR 촬영하기")
             }

@@ -22,7 +22,6 @@ fun BottomNavigationBar(navController: NavHostController) {
         Screen.QrPermission,
         Screen.Calculate,
         Screen.MyPage
-
     )
 
     BottomNavigation {
@@ -36,7 +35,9 @@ fun BottomNavigationBar(navController: NavHostController) {
                 onClick = {
                     if (currentRoute != screen.route) {
                         navController.navigate(screen.route) {
-                            popUpTo(navController.graph.startDestinationId)
+                            popUpTo(navController.graph.startDestinationId){
+                                saveState = false
+                            }
                             launchSingleTop = true
                         }
                     }

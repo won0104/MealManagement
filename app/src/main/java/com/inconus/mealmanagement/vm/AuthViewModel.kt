@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.inconus.mealmanagement.MyApplication
+import com.inconus.mealmanagement.RetrofitClient
 import com.inconus.mealmanagement.auth.LoginRequest
 import com.inconus.mealmanagement.auth.LoginResponse
 import com.inconus.mealmanagement.auth.AuthRepository
@@ -13,6 +14,10 @@ import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
 class AuthViewModel : ViewModel() {
     private val tokenProvider = SharedPreferencesTokenProvider(MyApplication.instance)
     private val repository = AuthRepository(tokenProvider)
+    //todo MainAcitivity에 있던 로직을 여기로 옮겼어요
+    fun initRetrofitClient(){
+        RetrofitClient.setTokenProvider(tokenProvider)
+    }
 
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> = _userId
