@@ -44,7 +44,9 @@ fun BottomNavigationBar(navController: NavHostController, qrViewModel: QrViewMod
                     }
                     if (currentRoute != screen.route) {
                         navController.navigate(screen.route) {
-                            popUpTo(navController.graph.startDestinationId)
+                            popUpTo(navController.graph.startDestinationId){
+                                saveState = false
+                            }
                             launchSingleTop = true
                         }
                     }
