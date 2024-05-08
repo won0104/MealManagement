@@ -28,12 +28,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.vm.AuthViewModel
 
 @Composable
-fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel) {
+fun LoginScreen(viewModel: AuthViewModel,longinSuccess:()->Unit ) {
     MealManagementTheme {
         var userId by remember { mutableStateOf("01044455107") }
         var userPassword by remember { mutableStateOf("5107") }
@@ -107,7 +106,7 @@ fun LoginScreen(navController: NavHostController, viewModel: AuthViewModel) {
 
             // 로그인 성공 시 페이지 이동
             if (loginStatus) {
-                navController.navigate("qrScanner")
+                longinSuccess()
             }
         }
     }

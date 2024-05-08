@@ -1,18 +1,18 @@
 package com.inconus.mealmanagement.nav
 
-import android.util.Log
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.inconus.mealmanagement.ui.CalculateScreen
-import com.inconus.mealmanagement.ui.MyPageScreen
 import com.inconus.mealmanagement.ui.CameraAccessRequestScreen
+import com.inconus.mealmanagement.ui.MyPageScreen
 import com.inconus.mealmanagement.ui.QrScanningScreen
 import com.inconus.mealmanagement.vm.AuthViewModel
 import com.inconus.mealmanagement.vm.QrViewModel
@@ -21,23 +21,54 @@ import com.inconus.mealmanagement.vm.QrViewModel
 fun MainNavHost(
     navController: NavHostController,
     qrViewModel: QrViewModel,
-    authViewModel : AuthViewModel
+    authViewModel: AuthViewModel
 ) {
     NavHost(
+        modifier = Modifier,
         navController = navController,
-        startDestination = "qrPermission"
+        startDestination = "qrPermission",
     ) {
-        composable("qrPermission") {
+        composable(
+            route = "qrPermission",
+            enterTransition = {
+                EnterTransition.None
+            },
+            exitTransition = {
+                ExitTransition.None
+            }
+        )
+        {
             CameraAccessRequestScreen(qrViewModel, navController)
         }
-        composable("qrScanner") {
+        composable(route = "qrScanner",
+            enterTransition = {
+                EnterTransition.None
+            },
+            exitTransition = {
+                ExitTransition.None
+            })
+        {
             QrScanningScreen(qrViewModel)
         }
-        composable("myPage"){
-            MyPageScreen(authViewModel)
-        }
-        composable("calculate"){
+        composable("calculate",
+            enterTransition = {
+                EnterTransition.None
+            },
+            exitTransition = {
+                ExitTransition.None
+            }
+        ) {
             CalculateScreen()
+        }
+        composable("myPage",
+            enterTransition = {
+                EnterTransition.None
+            },
+            exitTransition = {
+                ExitTransition.None
+            })
+        {
+            MyPageScreen(authViewModel)
         }
     }
 }

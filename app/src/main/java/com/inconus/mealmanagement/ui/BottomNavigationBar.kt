@@ -44,8 +44,10 @@ fun BottomNavigationBar(navController: NavHostController, qrViewModel: QrViewMod
                     }
                     if (currentRoute != screen.route) {
                         navController.navigate(screen.route) {
-                            popUpTo(navController.graph.startDestinationId)
-                            launchSingleTop = true
+                            popUpTo(navController.graph.startDestinationId){
+                                saveState = false // 화면 초기 상태로 리셋
+                            }
+                            launchSingleTop = true // 최상위 화면 재사용
                         }
                     }
                 }
