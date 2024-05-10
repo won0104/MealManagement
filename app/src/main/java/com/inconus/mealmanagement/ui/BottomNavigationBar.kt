@@ -29,22 +29,42 @@ fun BottomNavigationBar(navController: NavHostController, qrViewModel: QrViewMod
     BottomNavigation {
         val currentRoute = navController.currentRoute()
         items.forEach { screen ->
+            // 선택된 아이템과 현재 루트비교
+            val isSelected = currentRoute == screen.route
             BottomNavigationItem(
-                icon = { Icon(painter = screen.icon.invoke(), contentDescription = null) },
-                label = { Text(screen.title, style = MaterialTheme.typography.bodyMedium.copy(fontSize = 10.sp)) },
+                icon = {
+                    // 선택 여부에 따라 아이콘 색상 변경
+                    val iconColor =
+                        if (isSelected) MaterialTheme.colorScheme.primary else Color.Black
+                    Icon(
+                        painter = screen.icon.invoke(),
+                        contentDescription = null,
+                        tint = iconColor
+                    )
+                },
+                label = {
+                    Text(
+                        screen.title,
+                        style = MaterialTheme.typography.bodyMedium.copy(fontSize = 10.sp)
+                    )
+                },
                 selected = currentRoute == screen.route,
+                selectedContentColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.background(Color(0xFFF3EDF7)),
                 onClick = {
                     // QR Permission 스크린 클릭 시 권한 확인
                     if (screen.route == "qrPermission") {
                         if (!qrViewModel.hasCameraPermission.value!!) {
-                            navController.popBackStack(navController.graph.startDestinationId, inclusive = false)
-                            Log.d("확인용","백스택 삭제")
+                            navController.popBackStack(
+                                navController.graph.startDestinationId,
+                                inclusive = false
+                            )
+                            Log.d("확인용", "백스택 삭제")
                         }
                     }
                     if (currentRoute != screen.route) {
                         navController.navigate(screen.route) {
-                            popUpTo(navController.graph.startDestinationId){
+                            popUpTo(navController.graph.startDestinationId) {
                                 saveState = false // 화면 초기 상태로 리셋
                             }
                             launchSingleTop = true // 최상위 화면 재사용
@@ -59,8 +79,8 @@ fun BottomNavigationBar(navController: NavHostController, qrViewModel: QrViewMod
 
 @Preview(showBackground = true)
 @Composable
-fun BottomNavigationBarPreview(){
+fun BottomNavigationBarPreview() {
     val navController = rememberNavController()
     val viewModel = QrViewModel()
-    BottomNavigationBar(navController,viewModel)
+    BottomNavigationBar(navController, viewModel)
 }

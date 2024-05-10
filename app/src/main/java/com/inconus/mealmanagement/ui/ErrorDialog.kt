@@ -39,7 +39,6 @@ fun ErrorDialog(showDialog: Boolean, errorMessage: String, onDismiss: () -> Unit
                 verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(
-
                     modifier = Modifier
                         .size(width = 300.dp, height = 200.dp)
                         .clip(RoundedCornerShape(16.dp))
@@ -82,7 +81,8 @@ fun ErrorDialog(showDialog: Boolean, errorMessage: String, onDismiss: () -> Unit
                         onDismiss()
                     },
                     modifier = Modifier
-                        .size(width = 190.dp, height = 55.dp),
+                        .size(width = 250.dp, height = 55.dp),
+                    shape = RoundedCornerShape(16.dp)
                 ) {
                     Text("닫기", color = Color.White)
                 }
