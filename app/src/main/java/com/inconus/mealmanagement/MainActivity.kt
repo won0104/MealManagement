@@ -1,6 +1,7 @@
 package com.inconus.mealmanagement
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.inconus.mealmanagement.ui.AuthenticatedMainScreen
 import com.inconus.mealmanagement.ui.LoginScreen
@@ -29,6 +31,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            val context = LocalContext.current
 
             MealManagementTheme {
                 Surface(
@@ -37,11 +40,16 @@ class MainActivity : ComponentActivity() {
                     val loginStatus by authViewModel.loginStatus.observeAsState(false)
                     Column(modifier = Modifier.fillMaxSize()) {
                         if (loginStatus) {
+                            Toast.makeText(context,"로그인 되었습니다.",Toast.LENGTH_SHORT).show()
+                            
                             AuthenticatedMainScreen(navController, qrViewModel, authViewModel)
                         } else {
                             LoginScreen(
                                 viewModel = authViewModel,
-                                longinSuccess = { navController.navigate("qrScanner") })
+                                longinSuccess = {
+                                    navController.navigate("qrScanner")
+                                }
+                            )
                         }
                     }
                 }

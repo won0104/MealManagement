@@ -38,7 +38,7 @@ fun MainNavHost(
             }
         )
         {
-            CameraAccessRequestScreen(qrViewModel, navController)
+            CameraAccessRequestScreen(qrViewModel) { navController.navigate("qrScanner") }
         }
         composable(route = "qrScanner",
             enterTransition = {
@@ -48,7 +48,7 @@ fun MainNavHost(
                 ExitTransition.None
             })
         {
-            QrScanningScreen(qrViewModel)
+            QrScanningScreen(qrViewModel){navController.navigate("qrPermission") }
         }
         composable("calculate",
             enterTransition = {

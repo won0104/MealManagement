@@ -1,5 +1,7 @@
 package com.inconus.mealmanagement.ui
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -34,83 +37,73 @@ import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.vm.AuthViewModel
 
 @Composable
-fun LoginScreen(viewModel: AuthViewModel,longinSuccess:()->Unit ) {
-    MealManagementTheme {
-        var userId by remember { mutableStateOf("01044455107") }
-        var userPassword by remember { mutableStateOf("5107") }
-        val loginStatus by viewModel.loginStatus.observeAsState(false)
-        val errorMessage by viewModel.errorMessage.observeAsState("")
-        val showDialog = remember { mutableStateOf(false) }
-        val focusManager = LocalFocusManager.current
+fun LoginScreen(viewModel: AuthViewModel, longinSuccess: () -> Unit) {
+    var userId by remember { mutableStateOf("01044455107") }
+    var userPassword by remember { mutableStateOf("5107") }
+    val errorMessage by viewModel.errorMessage.observeAsState("")
+    val showDialog = remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
 
-        //Error 발생시 다이얼로그 표시
-        LaunchedEffect(errorMessage) {
-            showDialog.value = errorMessage.isNotEmpty()
-        }
+    //Error 발생시 다이얼로그 표시
+    LaunchedEffect(errorMessage) {
+        showDialog.value = errorMessage.isNotEmpty()
+    }
+    if (showDialog.value) {
+        ErrorDialog(showDialog.value, errorMessage,
+            onDismiss = {
+                showDialog.value = false
+                viewModel.updateErrorMessage("")
+            }
+        )
+    }
 
-        if (showDialog.value) {
-            ErrorDialog(showDialog.value, errorMessage,
-                onDismiss = {
-                    showDialog.value = false
-                    viewModel.updateErrorMessage("")
-                }
-            )
-        }
-
-        Column(
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { focusManager.clearFocus() }
+            .background(Color.Transparent)
+            .padding(50.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        OutlinedTextField(
+            value = userId,
+            onValueChange = { newText -> userId = newText },
+            label = { Text("id") },
+            singleLine = true,
             modifier = Modifier
-                .fillMaxSize()
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) { focusManager.clearFocus() }
-                .background(Color.Transparent)
-                .padding(50.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            OutlinedTextField(
-                value = userId,
-                onValueChange = { newText -> userId = newText },
-                label = { Text("id") },
-                singleLine = true,
-                modifier = Modifier
-                    .height(65.dp)
-                    .width(280.dp),
-                shape = RoundedCornerShape(8.dp),
-            )
-            Spacer(modifier = Modifier.heightIn(10.dp))
-            OutlinedTextField(
-                value = userPassword,
-                onValueChange = { newText -> userPassword = newText },
-                label = { Text("Password") },
-                singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier
-                    .height(65.dp)
-                    .width(280.dp),
-                shape = RoundedCornerShape(8.dp),
-            )
-            Spacer(modifier = Modifier.heightIn(20.dp))
-            Button(modifier = Modifier
-                .height(55.dp)
+                .height(65.dp)
                 .width(280.dp),
-                shape = RoundedCornerShape(8.dp),
-                onClick = {
-                    viewModel.updateUserId(userId)
-                    viewModel.updateUserPassword(userPassword)
-                    viewModel.loginUser()
-                }
-            ) {
-                Text("로그인")
+            shape = RoundedCornerShape(8.dp),
+        )
+        Spacer(modifier = Modifier.heightIn(10.dp))
+        OutlinedTextField(
+            value = userPassword,
+            onValueChange = { newText -> userPassword = newText },
+            label = { Text("Password") },
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier
+                .height(65.dp)
+                .width(280.dp),
+            shape = RoundedCornerShape(8.dp),
+        )
+        Spacer(modifier = Modifier.heightIn(20.dp))
+        Button(modifier = Modifier
+            .height(55.dp)
+            .width(280.dp),
+            shape = RoundedCornerShape(8.dp),
+            onClick = {
+                viewModel.updateUserId(userId)
+                viewModel.updateUserPassword(userPassword)
+                viewModel.loginUser()
             }
-
-            Spacer(modifier = Modifier.heightIn(20.dp))
-
-            // 로그인 성공 시 페이지 이동
-            if (loginStatus) {
-                longinSuccess()
-            }
+        ) {
+            Text("로그인")
         }
+        Spacer(modifier = Modifier.heightIn(20.dp))
     }
 }

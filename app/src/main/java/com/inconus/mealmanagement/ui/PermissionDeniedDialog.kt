@@ -49,7 +49,7 @@ fun PermissionDeniedDialog(
             ) {
                 Column(
                     modifier = Modifier
-                        .size(width = 300.dp, height = 200.dp)
+                        .size(width = 300.dp, height = 220.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(Color.White),
                     horizontalAlignment = Alignment.CenterHorizontally,

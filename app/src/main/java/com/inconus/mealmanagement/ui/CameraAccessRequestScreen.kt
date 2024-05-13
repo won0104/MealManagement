@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,13 +26,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.inconus.mealmanagement.R
 import com.inconus.mealmanagement.util.manageCameraPermission
 import com.inconus.mealmanagement.vm.QrViewModel
@@ -42,7 +37,7 @@ import com.inconus.mealmanagement.vm.QrViewModel
 
 // 카메라 권한 확인
 @Composable
-fun CameraAccessRequestScreen(viewModel: QrViewModel, navController: NavHostController) {
+fun CameraAccessRequestScreen(viewModel: QrViewModel, goToQrScanner:()->Unit) {
     val context = LocalContext.current
     // 카메라 접근 권한 확인
     val cameraPermission = manageCameraPermission(viewModel)
@@ -63,7 +58,7 @@ fun CameraAccessRequestScreen(viewModel: QrViewModel, navController: NavHostCont
     ) {
         if (cameraPermission) {
             Button(
-                onClick = { navController.navigate("qrScanner") },
+                onClick = { goToQrScanner() },
                 modifier = Modifier
                     .size(130.dp, 130.dp)
                     .clip(RoundedCornerShape(8.dp))
