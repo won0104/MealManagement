@@ -2,6 +2,5 @@ package com.inconus.mealmanagement.model
 
 data class Employee(
     val name : String,
-    //val phone : String,
-    val employeeCode: Int,
+    val employeeCode: Int, // 휴대폰 번호
 )

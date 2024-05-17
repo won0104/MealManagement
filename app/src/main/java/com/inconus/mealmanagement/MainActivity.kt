@@ -15,8 +15,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inconus.mealmanagement.ui.AuthenticatedMainScreen
-import com.inconus.mealmanagement.ui.LoginScreen
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
+import com.inconus.mealmanagement.ui.LoginScreen
 import com.inconus.mealmanagement.vm.AuthViewModel
 import com.inconus.mealmanagement.vm.QrViewModel
 
@@ -41,14 +41,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = if (loginStatus == true) "authenticatedMainScreen" else "loginScreen") {
                         composable("loginScreen") {
-                            LoginScreen(
-                                viewModel = authViewModel,
-                                longinSuccess = {
-                                    navController.navigate("authenticatedMainScreen") {
-                                        popUpTo("loginScreen") { inclusive = true } // 로그인 화면을 스택에서 제거
-                                    }
-                                }
-                            )
+                            LoginScreen(viewModel = authViewModel)
                         }
                         composable("authenticatedMainScreen") {
                             AuthenticatedMainScreen( qrViewModel, authViewModel)
