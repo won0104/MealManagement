@@ -77,10 +77,10 @@ fun BottomNavigationBar(navController: NavHostController, qrViewModel: QrViewMod
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun BottomNavigationBarPreview() {
-    val navController = rememberNavController()
-    val viewModel = QrViewModel()
-    BottomNavigationBar(navController, viewModel)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BottomNavigationBarPreview() {
+//    val navController = rememberNavController()
+//    val viewModel = QrViewModel()
+//    BottomNavigationBar(navController, viewModel)
+//}

@@ -1,7 +1,6 @@
 package com.inconus.mealmanagement.ui
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.compose.foundation.clickable
@@ -29,7 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.inconus.mealmanagement.R
-import com.inconus.mealmanagement.model.Employee
+import com.inconus.mealmanagement.model.EmployeeRecord
 import com.inconus.mealmanagement.vm.QrViewModel
 
 @Composable
@@ -125,7 +124,7 @@ fun QrScanningScreen(viewModel: QrViewModel,close:()->Unit) {
 
 // QR 스캔 결과 처리
 private fun handleCameraResult(
-    result: Result<Employee>,
+    result: Result<EmployeeRecord>,
     viewModel: QrViewModel,
     context: Context
 ) {

@@ -9,6 +9,7 @@ import com.inconus.mealmanagement.RetrofitClient
 import com.inconus.mealmanagement.auth.LoginRequest
 import com.inconus.mealmanagement.auth.LoginResponse
 import com.inconus.mealmanagement.auth.AuthRepository
+import com.inconus.mealmanagement.model.EmployeeRepository
 import com.inconus.mealmanagement.util.Event
 import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
 

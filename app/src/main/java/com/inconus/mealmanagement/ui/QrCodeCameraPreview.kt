@@ -18,13 +18,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import com.inconus.mealmanagement.model.Employee
+import com.inconus.mealmanagement.model.EmployeeRecord
 import com.inconus.mealmanagement.util.QRImageAnalyzer
 
 @Composable
 fun QrCodeCameraPreview(
     cameraSelector: CameraSelector,
-    onResult: (Result<Employee>) -> Unit
+    onResult: (Result<EmployeeRecord>) -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current

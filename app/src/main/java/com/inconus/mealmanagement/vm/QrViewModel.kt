@@ -5,16 +5,25 @@ import androidx.camera.core.CameraSelector
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.inconus.mealmanagement.model.Employee
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.inconus.mealmanagement.model.EmployeeRecord
+import com.inconus.mealmanagement.model.EmployeeRepository
+import com.inconus.mealmanagement.model.RecordSummaryRepository
+import kotlinx.coroutines.launch
 
 
-class QrViewModel : ViewModel() {
+class QrViewModel(
+    private var employeeRepository: EmployeeRepository,
+    private var recordSummaryRepository: RecordSummaryRepository
+) : ViewModel() {
     // 카메라 권한 관련
     private val _showPermissionDialog = MutableLiveData(false)
     val showPermissionDialog: LiveData<Boolean> = _showPermissionDialog
     fun updateShowPermissionDialog(showDialog: Boolean) {
         _showPermissionDialog.value = showDialog
     }
+
     private val _hasCameraPermission = MutableLiveData<Boolean>()
     val hasCameraPermission: LiveData<Boolean> = _hasCameraPermission
 
@@ -42,11 +51,12 @@ class QrViewModel : ViewModel() {
 
 
     // QR 스캔 결과 처리
-    private val _employeeData = MutableLiveData<Employee?>()
-    val employeeData: LiveData<Employee?> = _employeeData
-    fun scanSuccess(employee: Employee) {
-        _employeeData.value = employee
+    fun scanSuccess(employeeRecord: EmployeeRecord) {
+        viewModelScope.launch {
+            employeeRepository.insertRecord(employeeRecord)
+        }
     }
+
 
     fun scanFailure(message: String) {
         _errorMessage.value = message
@@ -67,6 +77,23 @@ class QrViewModel : ViewModel() {
         }
     }
 
+
+        var data = employeeRepository.getRecordsBetweenDates(2024051712,2024051716)
+
 //    private val _duplication = MutableLiveData<Boolean>()
 //    val duplication: LiveData<Boolean> = _duplication
 }
+
+class QrViewModelFactory(
+    private val employeeRepository: EmployeeRepository,
+    private val recordSummaryRepository: RecordSummaryRepository
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(QrViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return QrViewModel(employeeRepository, recordSummaryRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
