@@ -14,5 +14,7 @@ fun CalculateScreen(){
         contentAlignment = Alignment.Center,
     ) {
         Text("정산 화면")
+
+
     }
 }

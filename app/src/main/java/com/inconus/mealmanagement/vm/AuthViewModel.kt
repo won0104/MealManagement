@@ -9,6 +9,7 @@ import com.inconus.mealmanagement.RetrofitClient
 import com.inconus.mealmanagement.auth.LoginRequest
 import com.inconus.mealmanagement.auth.LoginResponse
 import com.inconus.mealmanagement.auth.AuthRepository
+import com.inconus.mealmanagement.util.Event
 import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
 
 class AuthViewModel : ViewModel() {
@@ -66,6 +67,9 @@ class AuthViewModel : ViewModel() {
         repository.userLogin(data, ::handleSuccess, ::handleError)
     }
 
+    private val _loginSuccessEvent = MutableLiveData<Event<Boolean>>()
+    val loginSuccessEvent: LiveData<Event<Boolean>> = _loginSuccessEvent
+
     // 로그인 - 네트워크 응답 성공
     private fun handleSuccess(response: LoginResponse) {
         _errorMessage.value = response.errorMessage// 잘 성공하면 null 값
@@ -73,6 +77,7 @@ class AuthViewModel : ViewModel() {
             _loginStatus.value = true
             _token.value = it.token
             _name.value = it.name
+            _loginSuccessEvent.value = Event(true)
         }
     }
 
