@@ -53,7 +53,14 @@ class QrViewModel(
     // QR 스캔 결과 처리
     fun scanSuccess(employeeRecord: EmployeeRecord) {
         viewModelScope.launch {
-            employeeRepository.insertRecord(employeeRecord)
+            try {
+                Log.d("오애애애애ㅐ", "QrViewModel- 입력 레코드: $employeeRecord")
+
+                employeeRepository.insertRecord(employeeRecord)
+            } catch (e: Exception) {
+                Log.e("오애애애애ㅐ", "QrViewModel- Error inserting record", e)
+                scanFailure("Error inserting record")
+            }
         }
     }
 
@@ -76,9 +83,6 @@ class QrViewModel(
             CameraSelector.DEFAULT_BACK_CAMERA
         }
     }
-
-
-        var data = employeeRepository.getRecordsBetweenDates(2024051712,2024051716)
 
 //    private val _duplication = MutableLiveData<Boolean>()
 //    val duplication: LiveData<Boolean> = _duplication

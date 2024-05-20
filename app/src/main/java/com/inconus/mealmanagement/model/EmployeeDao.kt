@@ -16,7 +16,7 @@ interface EmployeeDao {
     fun getRecordsBetweenDates(startDate: Long, endDate: Long): LiveData<List<EmployeeRecord>>
 
     // 가장 마지막에 저장된 기록 불러오기
-    @Query("SELECT * FROM employee_records ORDER BY dateScanned DESC LIMIT 1")
+    @Query("SELECT * FROM employee_records ORDER BY id DESC LIMIT 1")
     suspend fun getLastRecord(): EmployeeRecord?
 
     // 특정 기간 이전의 데이터 삭제

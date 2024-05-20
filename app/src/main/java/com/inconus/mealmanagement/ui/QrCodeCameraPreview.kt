@@ -11,7 +11,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,6 +41,9 @@ fun QrCodeCameraPreview(
         ViewGroup.LayoutParams.MATCH_PARENT
     )
 
+    // 타임스탬프를 저장하는 상태 변수 추가
+    var lastScannedTime by remember { mutableLongStateOf(0L) }
+
     // 전면/후면 카메라 선택 될 때 마다 카메라 다시 바인딩
     LaunchedEffect(cameraSelector) {
         val cameraProvider = cameraProviderFuture.get()
@@ -49,7 +56,11 @@ fun QrCodeCameraPreview(
             .also {
                 it.setAnalyzer(ContextCompat.getMainExecutor(context), QRImageAnalyzer(
                     onQrCodeScanned = { employee ->
-                        onResult(Result.success(employee))
+                        val currentTime = System.currentTimeMillis()
+                        if (currentTime - lastScannedTime >= 3000) {
+                            lastScannedTime = currentTime
+                            onResult(Result.success(employee))
+                        }
                     },
                     onError = { error ->
                         onResult(Result.failure(Exception(error)))
@@ -64,6 +75,8 @@ fun QrCodeCameraPreview(
             onResult(Result.failure(e))
         }
     }
+
+
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopEnd) {
         AndroidView(

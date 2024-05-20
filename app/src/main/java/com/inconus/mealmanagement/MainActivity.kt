@@ -26,14 +26,14 @@ import com.inconus.mealmanagement.vm.QrViewModelFactory
 
 
 class MainActivity : ComponentActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val employeeDao = AppDatabase.getDatabase(application).employeeDao()
-        val employeeRepository = EmployeeRepository(employeeDao)
-        val recordSummaryDao=AppDatabase.getDatabase(application).recordSummaryDao()
-        val recordSummaryRepository=RecordSummaryRepository(recordSummaryDao)
+
+
+
+        val db = AppDatabase.getDatabase(application)
+        val employeeRepository = EmployeeRepository(db.employeeDao())
+        val recordSummaryRepository = RecordSummaryRepository(db.recordSummaryDao())
 
         val viewModelFactory = QrViewModelFactory(employeeRepository, recordSummaryRepository)
         val authViewModel: AuthViewModel by viewModels()

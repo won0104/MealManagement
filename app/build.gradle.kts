@@ -9,6 +9,12 @@ android {
     compileSdk = 34
 
     defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                argument("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
+
         applicationId = "com.inconus.mealmanagement"
         minSdk = 26
         targetSdk = 34
@@ -19,6 +25,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
     }
 
     buildTypes {
