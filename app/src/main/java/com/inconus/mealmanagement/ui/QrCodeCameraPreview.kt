@@ -10,6 +10,7 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -75,7 +76,13 @@ fun QrCodeCameraPreview(
             onResult(Result.failure(e))
         }
     }
-
+    // 라이프사이클에 따른 카메라 해제 처리
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            val cameraProvider = cameraProviderFuture.get()
+            cameraProvider.unbindAll()  // 컴포저블이 제거될 때 카메라 리소스를 해제합니다.
+        }
+    }
 
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopEnd) {
