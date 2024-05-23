@@ -13,7 +13,7 @@ interface EmployeeDao {
 
     // 특정 기간 동안 저장한 기록 불러오기
     @Query("SELECT * FROM employee_records WHERE dateScanned BETWEEN :startDate AND :endDate")
-    fun getRecordsBetweenDates(startDate: Long, endDate: Long): LiveData<List<EmployeeRecord>>
+    suspend fun getRecordsBetweenDates(startDate: Long, endDate: Long): List<EmployeeRecord>
 
     // 가장 마지막에 저장된 기록 불러오기
     @Query("SELECT * FROM employee_records ORDER BY id DESC LIMIT 1")

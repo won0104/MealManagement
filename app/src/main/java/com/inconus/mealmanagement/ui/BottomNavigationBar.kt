@@ -54,7 +54,7 @@ fun BottomNavigationBar(navController: NavHostController, qrViewModel: QrViewMod
                 onClick = {
                     // QR Permission 스크린 클릭 시 권한 확인
                     if (screen.route == "qrPermission") {
-                        if (!qrViewModel.hasCameraPermission.value!!) {
+                        if (qrViewModel.hasCameraPermission.value != true){
                             navController.popBackStack(
                                 navController.graph.startDestinationId,
                                 inclusive = false

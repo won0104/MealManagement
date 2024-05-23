@@ -59,6 +59,7 @@ fun MainNavHost(
             }
         ) {
             CalculateScreen()
+            //RecordListScreen()
         }
         composable("myPage",
             enterTransition = {

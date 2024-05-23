@@ -56,14 +56,14 @@ class QrViewModel(
     fun scanSuccess(employeeRecord: EmployeeRecord) {
         viewModelScope.launch {
             try {
-                Log.d("오애애애애ㅐ", "QrViewModel- 입력 레코드: $employeeRecord")
+                Log.d("확인", "QrViewModel- 입력 레코드: $employeeRecord")
                 val isInserted = employeeRepository.insertRecord(employeeRecord)
                 _insertResult.postValue(isInserted)
                 if (!isInserted) {
                     _errorMessage.postValue("이전에 스캔된 코드 입니다!!")// 삽입 실패 시 에러 메시지 업데이트
                 }
             } catch (e: Exception) {
-                Log.e("오애애애애ㅐ", "QrViewModel- Error inserting record", e)
+                Log.e("확인", "QrViewModel- Error inserting record", e)
                 _insertResult.postValue(false)
                 scanFailure("Error inserting record")
             }
