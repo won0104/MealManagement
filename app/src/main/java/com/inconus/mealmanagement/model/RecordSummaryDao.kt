@@ -5,17 +5,22 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface RecordSummaryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSummary(summary: RecordSummary)
 
-    // 날짜로 데이터 가져오기
-    @Query("SELECT * FROM record_summaries WHERE date = :date")
-    fun getSummaryByDate(date: Long): LiveData<RecordSummary>
+    @Update
+    suspend fun updateSummary(summary: RecordSummary)
 
-    // 모든 요약 가져오기
+    @Query("SELECT * FROM record_summaries WHERE date = :date")
+    suspend fun getSummaryByDate(date: Long): RecordSummary?
+
     @Query("SELECT * FROM record_summaries ORDER BY date DESC")
     fun getAllSummaries(): LiveData<List<RecordSummary>>
+
+    @Query("UPDATE record_summaries SET count = :count WHERE date = :date")
+    suspend fun updateSummaryByDate(date: Long, count: Int)
 }

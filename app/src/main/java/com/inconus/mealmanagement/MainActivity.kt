@@ -21,6 +21,8 @@ import com.inconus.mealmanagement.ui.AuthenticatedMainScreen
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.ui.LoginScreen
 import com.inconus.mealmanagement.vm.AuthViewModel
+import com.inconus.mealmanagement.vm.CalculateViewModel
+import com.inconus.mealmanagement.vm.CalculateViewModelFactory
 import com.inconus.mealmanagement.vm.QrViewModel
 import com.inconus.mealmanagement.vm.QrViewModelFactory
 
@@ -35,9 +37,11 @@ class MainActivity : ComponentActivity() {
         val employeeRepository = EmployeeRepository(db.employeeDao())
         val recordSummaryRepository = RecordSummaryRepository(db.recordSummaryDao())
 
-        val viewModelFactory = QrViewModelFactory(employeeRepository, recordSummaryRepository)
+        val qrViewModelFactory = QrViewModelFactory(employeeRepository, recordSummaryRepository)
+        val calculateViewModelFactory = CalculateViewModelFactory(employeeRepository,recordSummaryRepository)
         val authViewModel: AuthViewModel by viewModels()
-        val qrViewModel: QrViewModel by viewModels { viewModelFactory }
+        val qrViewModel: QrViewModel by viewModels { qrViewModelFactory }
+        val calculateViewModel:CalculateViewModel by viewModels{calculateViewModelFactory}
 
         authViewModel.initRetrofitClient()
 
@@ -56,7 +60,7 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(viewModel = authViewModel)
                         }
                         composable("authenticatedMainScreen") {
-                            AuthenticatedMainScreen( qrViewModel, authViewModel)
+                            AuthenticatedMainScreen( qrViewModel, authViewModel,calculateViewModel)
                         }
                     }
 

@@ -13,6 +13,7 @@ import androidx.compose.material.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,16 +24,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.inconus.mealmanagement.model.AppDatabase
+import com.inconus.mealmanagement.model.EmployeeRepository
+import com.inconus.mealmanagement.model.RecordSummary
+import com.inconus.mealmanagement.model.RecordSummaryRepository
 import com.inconus.mealmanagement.util.MonthSelector
 import com.inconus.mealmanagement.util.convertDate
+import com.inconus.mealmanagement.vm.CalculateViewModel
 import java.util.Calendar
 
 data class MockRecord(val dateScanned: String, val peopleCount: Int)
 
+
+
 @Composable
-fun CalculateScreen() {
+fun CalculateScreen(viewModel:CalculateViewModel) {
     var selectedCalendar by remember { mutableStateOf(Calendar.getInstance()) }
-    val mockRecords = listOf(
+    viewModel.updateSummary()
+    val summaries by viewModel.summaries.observeAsState(initial = emptyList())
+
+    val records = listOf(
         MockRecord("20240510", 20),
         MockRecord("20240511", 20),
         MockRecord("20240512", 20),
@@ -76,8 +87,8 @@ fun CalculateScreen() {
                 .weight(0.9f)
                 .padding(16.dp)
         ) {
-            items(mockRecords.size) { index ->
-                CalculateCard(record = mockRecords[index])
+            items(summaries.size) { index ->
+                CalculateCard(record = summaries[index])
             }
         }
         Box(modifier = Modifier.weight(0.1f))
@@ -85,7 +96,7 @@ fun CalculateScreen() {
 }
 
 @Composable
-fun CalculateCard(record: MockRecord) {
+fun CalculateCard(record: RecordSummary) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,16 +108,16 @@ fun CalculateCard(record: MockRecord) {
                 .padding(16.dp)
         ) {
             Text(
-                text = convertDate(record.dateScanned),
+                text = convertDate(record.date),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "식수 인원: ${record.peopleCount}명",
+                text = "식수 인원: ${record.count}명",
             )
             Text(
-                text = "총액: ${record.peopleCount * 8000}원",
+                text = "총액: ${record.count * 8000}원",
             )
         }
     }
@@ -116,5 +127,20 @@ fun CalculateCard(record: MockRecord) {
 @Preview(showBackground = true)
 @Composable
 fun CalculateScreenPreview() {
-    CalculateScreen()
+//    val mockRecords = listOf(
+//        MockRecord("20240510", 20),
+//        MockRecord("20240511", 20),
+//        MockRecord("20240512", 20),
+//        MockRecord("20240513", 20),
+//        MockRecord("20240514", 20),
+//        MockRecord("20240515", 20),
+//        MockRecord("20240516", 20),
+//        MockRecord("20240517", 20)
+//    )
+//    val db = AppDatabase.getDatabase()
+//    val employeeRepository = EmployeeRepository(db.employeeDao())
+//    val recordSummaryRepository = RecordSummaryRepository(db.recordSummaryDao())
+//
+//    val viewModel = CalculateViewModel(employeeRepository,recordSummaryRepository)
+//    CalculateScreen(viewModel)
 }

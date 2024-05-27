@@ -4,12 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 
 class EmployeeRepository(private val employeeDao: EmployeeDao) {
-//    fun getRecordsBetweenDates(startDate: Long, endDate: Long): List<EmployeeRecord> {
-//        return employeeDao.getRecordsBetweenDates(startDate, endDate)
-//    }
+
+    suspend fun getRecordsByDate(inputDate: Long):List<EmployeeRecord>{
+        return employeeDao.getRecordsByDate(inputDate)
+    }
 
     /**
-     * 레코드를 삽입하고 삽입 성공 여부를 반환합니다.
+     * 레코드를 삽입하고 삽입 성공 여부를 반환
      * @param record 삽입할 레코드
      * @return true 레코드가 성공적으로 삽입된 경우, false 동일한 레코드가 이미 존재하는 경우
      */
@@ -37,5 +38,9 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
 
     suspend fun deleteOldRecords(thresholdDate: Long) {
         employeeDao.deleteOldRecords(thresholdDate)
+    }
+
+    suspend fun getRecordSummary() : List<RecordSummary>{
+        return employeeDao.getRecordSummary()
     }
 }
