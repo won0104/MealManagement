@@ -70,7 +70,6 @@ class QrViewModel(
         }
     }
 
-
     fun scanFailure(message: String) {
         _errorMessage.value = message
         Log.e("viewModel", "${_errorMessage.value}")

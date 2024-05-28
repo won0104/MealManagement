@@ -1,7 +1,5 @@
 package com.inconus.mealmanagement.ui
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,12 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,13 +28,15 @@ import com.inconus.mealmanagement.vm.CalculateViewModel
 import java.util.Calendar
 
 @Composable
-fun CalculateScreen(viewModel:CalculateViewModel) {
-    Log.d("확인용","시작?")
+fun CalculateScreen(viewModel: CalculateViewModel) {
     val selectedCalendar by viewModel.selectedCalendar.observeAsState(initial = Calendar.getInstance())
-    viewModel.updateSummary()
     val summaries by viewModel.summaries.observeAsState(initial = emptyList())
     val totalSummaryCount by viewModel.totalSummaryCount.observeAsState(0)
-    val context =LocalContext.current
+
+    // 화면에 진입하면, 변경될 데이터가 있는지 확인 -> 업데이트
+    LaunchedEffect(true) {
+        viewModel.updateSummary()
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -47,10 +47,10 @@ fun CalculateScreen(viewModel:CalculateViewModel) {
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
         )
-        // 월 변경
+
+        // 월 선택기
         MonthSelector(selectedCalendar) { newCalendar ->
             viewModel.updateSelectedCalendar(newCalendar)
-            Toast.makeText(context,"선택한 월${newCalendar.get(Calendar.MONTH) + 1}",Toast.LENGTH_SHORT).show()
         }
 
         // 총 금액 출력
@@ -61,10 +61,9 @@ fun CalculateScreen(viewModel:CalculateViewModel) {
                 .padding(10.dp)
         ) {
             Text("총 식수 인원 : ${totalSummaryCount}명")
-            Text("총 식수 금액 : ${totalSummaryCount*8000} 원")
+            Text("총 식수 금액 : ${totalSummaryCount * 8000} 원")
         }
 
-        // Record Summary list
         LazyColumn(
             modifier = Modifier
                 .weight(0.9f)

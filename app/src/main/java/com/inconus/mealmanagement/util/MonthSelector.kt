@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-// 월 이동
+// 월 선택기 컴포넌트 - 사용자가 월을 변경할 수 있는 버튼과 현재 월을 표시하는 텍스트를 제공
 @Composable
 fun MonthSelector(calendar: Calendar, onMonthChanged: (Calendar) -> Unit) {
     Row(
