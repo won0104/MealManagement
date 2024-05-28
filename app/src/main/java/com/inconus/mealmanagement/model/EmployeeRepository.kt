@@ -36,10 +36,6 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
         }
     }
 
-    suspend fun deleteOldRecords(thresholdDate: Long) {
-        employeeDao.deleteOldRecords(thresholdDate)
-    }
-
     suspend fun getRecordSummary() : List<RecordSummary>{
         return employeeDao.getRecordSummary()
     }

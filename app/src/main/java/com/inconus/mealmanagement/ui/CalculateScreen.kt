@@ -1,5 +1,7 @@
 package com.inconus.mealmanagement.ui
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,45 +16,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.inconus.mealmanagement.model.AppDatabase
-import com.inconus.mealmanagement.model.EmployeeRepository
 import com.inconus.mealmanagement.model.RecordSummary
-import com.inconus.mealmanagement.model.RecordSummaryRepository
 import com.inconus.mealmanagement.util.MonthSelector
 import com.inconus.mealmanagement.util.convertDate
 import com.inconus.mealmanagement.vm.CalculateViewModel
 import java.util.Calendar
 
-data class MockRecord(val dateScanned: String, val peopleCount: Int)
-
-
-
 @Composable
 fun CalculateScreen(viewModel:CalculateViewModel) {
-    var selectedCalendar by remember { mutableStateOf(Calendar.getInstance()) }
+    Log.d("확인용","시작?")
+    val selectedCalendar by viewModel.selectedCalendar.observeAsState(initial = Calendar.getInstance())
     viewModel.updateSummary()
     val summaries by viewModel.summaries.observeAsState(initial = emptyList())
-
-    val records = listOf(
-        MockRecord("20240510", 20),
-        MockRecord("20240511", 20),
-        MockRecord("20240512", 20),
-        MockRecord("20240513", 20),
-        MockRecord("20240514", 20),
-        MockRecord("20240515", 20),
-        MockRecord("20240516", 20),
-        MockRecord("20240517", 20)
-    )
+    val totalSummaryCount by viewModel.totalSummaryCount.observeAsState(0)
+    val context =LocalContext.current
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -65,9 +49,8 @@ fun CalculateScreen(viewModel:CalculateViewModel) {
         )
         // 월 변경
         MonthSelector(selectedCalendar) { newCalendar ->
-            selectedCalendar = Calendar.getInstance().apply {
-                timeInMillis = newCalendar.timeInMillis
-            }
+            viewModel.updateSelectedCalendar(newCalendar)
+            Toast.makeText(context,"선택한 월${newCalendar.get(Calendar.MONTH) + 1}",Toast.LENGTH_SHORT).show()
         }
 
         // 총 금액 출력
@@ -77,8 +60,8 @@ fun CalculateScreen(viewModel:CalculateViewModel) {
                 .wrapContentWidth(Alignment.End)
                 .padding(10.dp)
         ) {
-            Text("총 식수 인원 : ")
-            Text("총 식수 금액 : ")
+            Text("총 식수 인원 : ${totalSummaryCount}명")
+            Text("총 식수 금액 : ${totalSummaryCount*8000} 원")
         }
 
         // Record Summary list
@@ -121,26 +104,4 @@ fun CalculateCard(record: RecordSummary) {
             )
         }
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun CalculateScreenPreview() {
-//    val mockRecords = listOf(
-//        MockRecord("20240510", 20),
-//        MockRecord("20240511", 20),
-//        MockRecord("20240512", 20),
-//        MockRecord("20240513", 20),
-//        MockRecord("20240514", 20),
-//        MockRecord("20240515", 20),
-//        MockRecord("20240516", 20),
-//        MockRecord("20240517", 20)
-//    )
-//    val db = AppDatabase.getDatabase()
-//    val employeeRepository = EmployeeRepository(db.employeeDao())
-//    val recordSummaryRepository = RecordSummaryRepository(db.recordSummaryDao())
-//
-//    val viewModel = CalculateViewModel(employeeRepository,recordSummaryRepository)
-//    CalculateScreen(viewModel)
 }
