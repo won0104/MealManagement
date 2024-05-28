@@ -21,7 +21,7 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
             // 직접 비교를 위해 suspend 함수의 결과를 사용
             // 같은 시간에 저장된 레코드를 가져와 삽입될 레코드와 같은지 비교
             val records = employeeDao.getRecordsBetweenDates(findDate, findDate)
-            if (records.any { existingRecord -> existingRecord == record }) {
+            if (records.any { existingRecord -> existingRecord == record }) { //오버라이딩한 equals
                 Log.d("확인", "EmployeeRepository - 동일한 레코드가 이미 존재합니다. 삽입을 건너뜁니다.")
                 return false
             } else {

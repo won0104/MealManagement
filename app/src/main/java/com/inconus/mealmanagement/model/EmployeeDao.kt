@@ -14,7 +14,7 @@ interface EmployeeDao {
     @Query("SELECT * FROM employee_records WHERE SUBSTR(CAST(dateScanned AS TEXT), 1, 8) = SUBSTR(CAST(:inputDate AS TEXT), 1, 8)")
     suspend fun getRecordsByDate(inputDate : Long) : List<Employee>
 
-    //  Summery애 저장할 데이터 받아오기
+    //  Summery 형식으로 데이터 요약
     @Query("SELECT substr(cast(dateScanned as text), 1, 8) as date, COUNT(*) as count FROM employee_records GROUP BY substr(cast(dateScanned as text), 1, 8)")
     suspend fun getRecordSummary(): List<Summary>
 

@@ -32,14 +32,11 @@ class CalculateViewModel(
     val selectedCalendar: LiveData<Calendar> = _selectedCalendar
 
 
-    val summaries: LiveData<List<Summary>> = _selectedCalendar.switchMap{ calendar: Calendar ->
+    val summaries: LiveData<List<Summary>> = _selectedCalendar.switchMap { calendar ->
         val monthLong = getMonthLongFromCalendar(calendar)
-        val liveData = MutableLiveData<List<Summary>>()
-        viewModelScope.launch {
-            liveData.value = summaryRepository.getSummariesByMonth(monthLong)
-        }
-        liveData
+        summaryRepository.getSummariesByMonth(monthLong)
     }
+
 
     val totalSummaryCount: LiveData<Int> = summaries.map{ summaries ->
         summaries.sumOf { it.count }

@@ -25,5 +25,5 @@ interface SummaryDao {
     suspend fun updateSummaryByDate(date: Long, count: Int)
 
     @Query("SELECT * FROM record_summaries WHERE SUBSTR(CAST(date AS TEXT), 1, 6) = SUBSTR(CAST(:date AS TEXT), 1, 6) ORDER BY date DESC")
-    suspend fun getSummariesByMonth(date:Long) : List<Summary>
+    fun getSummariesByMonth(date:Long) : LiveData<List<Summary>>
 }

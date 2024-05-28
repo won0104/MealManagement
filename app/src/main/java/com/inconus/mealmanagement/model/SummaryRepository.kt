@@ -18,7 +18,7 @@ class SummaryRepository(private val summaryDao: SummaryDao) {
         return summaryDao.getAllSummaries()
     }
 
-    suspend fun getSummariesByMonth(date:Long):List<Summary>{
+    fun getSummariesByMonth(date:Long):LiveData<List<Summary>>{
         return summaryDao.getSummariesByMonth(date)
     }
 }

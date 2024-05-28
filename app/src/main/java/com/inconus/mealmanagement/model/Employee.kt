@@ -10,6 +10,7 @@ data class Employee(
     val number: Int, // 휴대폰 번호
     var dateScanned: Long // 인식 날짜 (예: 20230401HH)
 ) {
+    // id제외, name, numberm dataScanned가 같으면 같다고 판단
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
