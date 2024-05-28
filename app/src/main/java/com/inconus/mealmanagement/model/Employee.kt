@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "employee_records")
-data class EmployeeRecord(
+data class Employee(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name : String,
     val number: Int, // 휴대폰 번호
@@ -14,7 +14,7 @@ data class EmployeeRecord(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as EmployeeRecord
+        other as Employee
 
         if (name != other.name) return false
         if (number != other.number) return false

@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.inconus.mealmanagement.model.EmployeeRecord
+import com.inconus.mealmanagement.model.Employee
 import com.inconus.mealmanagement.model.EmployeeRepository
-import com.inconus.mealmanagement.model.RecordSummary
-import com.inconus.mealmanagement.model.RecordSummaryRepository
+import com.inconus.mealmanagement.model.Summary
+import com.inconus.mealmanagement.model.SummaryRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -18,25 +18,25 @@ import java.util.Calendar
 
 class CalculateViewModel(
     private var employeeRepository: EmployeeRepository,
-    private var recordSummaryRepository: RecordSummaryRepository
+    private var summaryRepository: SummaryRepository
 ) : ViewModel() {
 
     private val currentDate: LocalDateTime = LocalDateTime.now()
     private val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
     private val formattedDate = currentDate.format(formatter).toLong()
 
-    private val _records = MutableLiveData<List<EmployeeRecord>>()
-    val records: LiveData<List<EmployeeRecord>> = _records
+    private val _records = MutableLiveData<List<Employee>>()
+    val records: LiveData<List<Employee>> = _records
 
     private val _selectedCalendar = MutableLiveData(Calendar.getInstance())
     val selectedCalendar: LiveData<Calendar> = _selectedCalendar
 
 
-    val summaries: LiveData<List<RecordSummary>> = _selectedCalendar.switchMap{ calendar: Calendar ->
+    val summaries: LiveData<List<Summary>> = _selectedCalendar.switchMap{ calendar: Calendar ->
         val monthLong = getMonthLongFromCalendar(calendar)
-        val liveData = MutableLiveData<List<RecordSummary>>()
+        val liveData = MutableLiveData<List<Summary>>()
         viewModelScope.launch {
-            liveData.value = recordSummaryRepository.getSummariesByMonth(monthLong)
+            liveData.value = summaryRepository.getSummariesByMonth(monthLong)
         }
         liveData
     }
@@ -59,7 +59,7 @@ class CalculateViewModel(
 
     fun updateSummary() = viewModelScope.launch {
         val summaries = employeeRepository.getRecordSummary()
-        recordSummaryRepository.updateSummary(summaries)
+        summaryRepository.updateSummary(summaries)
     }
 
     fun updateSelectedCalendar(calendar: Calendar) {
@@ -75,12 +75,12 @@ class CalculateViewModel(
 
 class CalculateViewModelFactory(
     private val employeeRepository: EmployeeRepository,
-    private val recordSummaryRepository: RecordSummaryRepository
+    private val summaryRepository: SummaryRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CalculateViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CalculateViewModel(employeeRepository, recordSummaryRepository) as T
+            return CalculateViewModel(employeeRepository, summaryRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

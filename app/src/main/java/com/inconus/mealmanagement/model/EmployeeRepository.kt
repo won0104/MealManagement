@@ -1,11 +1,10 @@
 package com.inconus.mealmanagement.model
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 
 class EmployeeRepository(private val employeeDao: EmployeeDao) {
 
-    suspend fun getRecordsByDate(inputDate: Long):List<EmployeeRecord>{
+    suspend fun getRecordsByDate(inputDate: Long):List<Employee>{
         return employeeDao.getRecordsByDate(inputDate)
     }
 
@@ -14,7 +13,7 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
      * @param record 삽입할 레코드
      * @return true 레코드가 성공적으로 삽입된 경우, false 동일한 레코드가 이미 존재하는 경우
      */
-    suspend fun insertRecord(record: EmployeeRecord): Boolean {
+    suspend fun insertRecord(record: Employee): Boolean {
         try {
             Log.d("확인", "EmployeeRepository - 입력 레코드 : $record")
             val findDate = record.dateScanned
@@ -36,7 +35,7 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
         }
     }
 
-    suspend fun getRecordSummary() : List<RecordSummary>{
+    suspend fun getRecordSummary() : List<Summary>{
         return employeeDao.getRecordSummary()
     }
 }

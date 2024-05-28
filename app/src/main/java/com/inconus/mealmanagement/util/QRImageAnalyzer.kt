@@ -9,13 +9,12 @@ import com.google.gson.Gson
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.gson.JsonSyntaxException
-import com.inconus.mealmanagement.model.EmployeeRecord
-import java.time.LocalDate
+import com.inconus.mealmanagement.model.Employee
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class QRImageAnalyzer(
-    private val onQrCodeScanned: (EmployeeRecord) -> Unit,
+    private val onQrCodeScanned: (Employee) -> Unit,
     private val onError: (String) -> Unit
 ) : ImageAnalysis.Analyzer {
     private val reader = MultiFormatReader()
@@ -39,14 +38,14 @@ class QRImageAnalyzer(
             val result = reader.decode(binaryBitmap)
 
             // 스캔 결과를 JSON 형태로 파싱하여 Employee 객체로 변환
-            val employeeRecord = Gson().fromJson(result.text, EmployeeRecord::class.java)
+            val employee = Gson().fromJson(result.text, Employee::class.java)
             // 날짜와 시간 데이터 추가
             val formatter = DateTimeFormatter.ofPattern("yyyyMMddHH")
             val currentDateTime = LocalDateTime.now().format(formatter).toLong()
-            employeeRecord.dateScanned = currentDateTime
+            employee.dateScanned = currentDateTime
 
             // 스캔 결과를 콜백을 통해 반환
-            onQrCodeScanned(employeeRecord)
+            onQrCodeScanned(employee)
         } catch (e: JsonSyntaxException) {
             Log.e("에러", "QRImageAnalyzer - JSON 파싱 오류: ${e.localizedMessage}")
             onError("QR 코드 형식이 잘못되었습니다. 올바른 QR 코드를 스캔해주세요.")

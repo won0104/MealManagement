@@ -7,10 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [EmployeeRecord::class, RecordSummary::class], version = 2)
+@Database(entities = [Employee::class, Summary::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun employeeDao(): EmployeeDao
-    abstract fun recordSummaryDao(): RecordSummaryDao
+    abstract fun summaryDao(): SummaryDao
 
     companion object {
         @Volatile

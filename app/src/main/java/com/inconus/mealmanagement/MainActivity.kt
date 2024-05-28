@@ -16,7 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.inconus.mealmanagement.model.AppDatabase
 import com.inconus.mealmanagement.model.EmployeeRepository
-import com.inconus.mealmanagement.model.RecordSummaryRepository
+import com.inconus.mealmanagement.model.SummaryRepository
 import com.inconus.mealmanagement.ui.AuthenticatedMainScreen
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.ui.LoginScreen
@@ -35,10 +35,10 @@ class MainActivity : ComponentActivity() {
 
         val db = AppDatabase.getDatabase(application)
         val employeeRepository = EmployeeRepository(db.employeeDao())
-        val recordSummaryRepository = RecordSummaryRepository(db.recordSummaryDao())
+        val summaryRepository = SummaryRepository(db.summaryDao())
 
-        val qrViewModelFactory = QrViewModelFactory(employeeRepository, recordSummaryRepository)
-        val calculateViewModelFactory = CalculateViewModelFactory(employeeRepository,recordSummaryRepository)
+        val qrViewModelFactory = QrViewModelFactory(employeeRepository, summaryRepository)
+        val calculateViewModelFactory = CalculateViewModelFactory(employeeRepository,summaryRepository)
         val authViewModel: AuthViewModel by viewModels()
         val qrViewModel: QrViewModel by viewModels { qrViewModelFactory }
         val calculateViewModel:CalculateViewModel by viewModels{calculateViewModelFactory}

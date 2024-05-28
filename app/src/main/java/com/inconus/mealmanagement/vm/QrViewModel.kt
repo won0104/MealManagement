@@ -7,15 +7,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.inconus.mealmanagement.model.EmployeeRecord
+import com.inconus.mealmanagement.model.Employee
 import com.inconus.mealmanagement.model.EmployeeRepository
-import com.inconus.mealmanagement.model.RecordSummaryRepository
+import com.inconus.mealmanagement.model.SummaryRepository
 import kotlinx.coroutines.launch
 
 
 class QrViewModel(
     private var employeeRepository: EmployeeRepository,
-    private var recordSummaryRepository: RecordSummaryRepository
+    private var summaryRepository: SummaryRepository
 ) : ViewModel() {
     // 카메라 권한 관련
     private val _showPermissionDialog = MutableLiveData(false)
@@ -53,11 +53,11 @@ class QrViewModel(
     val insertResult: LiveData<Boolean> = _insertResult
 
     // QR 스캔 결과 처리
-    fun scanSuccess(employeeRecord: EmployeeRecord) {
+    fun scanSuccess(employee: Employee) {
         viewModelScope.launch {
             try {
-                Log.d("확인", "QrViewModel- 입력 레코드: $employeeRecord")
-                val isInserted = employeeRepository.insertRecord(employeeRecord)
+                Log.d("확인", "QrViewModel- 입력 레코드: $employee")
+                val isInserted = employeeRepository.insertRecord(employee)
                 _insertResult.postValue(isInserted)
                 if (!isInserted) {
                     _errorMessage.postValue("이전에 스캔된 코드 입니다!!")// 삽입 실패 시 에러 메시지 업데이트
@@ -96,12 +96,12 @@ class QrViewModel(
 
 class QrViewModelFactory(
     private val employeeRepository: EmployeeRepository,
-    private val recordSummaryRepository: RecordSummaryRepository
+    private val summaryRepository: SummaryRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(QrViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return QrViewModel(employeeRepository, recordSummaryRepository) as T
+            return QrViewModel(employeeRepository, summaryRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

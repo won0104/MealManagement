@@ -14,7 +14,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -23,13 +22,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import com.inconus.mealmanagement.model.EmployeeRecord
+import com.inconus.mealmanagement.model.Employee
 import com.inconus.mealmanagement.util.QRImageAnalyzer
 
 @Composable
 fun QrCodeCameraPreview(
     cameraSelector: CameraSelector,
-    onResult: (Result<EmployeeRecord>) -> Unit
+    onResult: (Result<Employee>) -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current

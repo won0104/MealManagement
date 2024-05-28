@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.inconus.mealmanagement.model.RecordSummary
+import com.inconus.mealmanagement.model.Summary
 import com.inconus.mealmanagement.util.MonthSelector
 import com.inconus.mealmanagement.util.convertDate
 import com.inconus.mealmanagement.vm.CalculateViewModel
@@ -79,7 +79,7 @@ fun CalculateScreen(viewModel:CalculateViewModel) {
 }
 
 @Composable
-fun CalculateCard(record: RecordSummary) {
+fun CalculateCard(record: Summary) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
