@@ -45,7 +45,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
     var userPassword by remember { mutableStateOf("5107") }
     val errorMessage by viewModel.errorMessage.observeAsState("")
     val showDialog = remember { mutableStateOf(false) }
-    var autoLogin by remember { mutableStateOf(false) } // 체크 상태를 저장하는 변수
+    var autoLogin by remember { mutableStateOf(false) } // 자동 로그인 기능 구현 X
     val focusManager = LocalFocusManager.current
 
     //Error 발생시 다이얼로그 표시
