@@ -8,6 +8,10 @@ class MyApplication : Application() {
             private set
     }
 
+    init {
+        instance = this
+    }
+
     override fun onCreate() {
         super.onCreate()
         instance = this

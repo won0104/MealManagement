@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MealManagement</string>
+    <string name="app_title">식수관리시스템</string>
+    <string name="LogoDescription">keepMe 로고</string>
+    <string name="id">아이디</string>
+    <string name="pw">비밀번호</string>
+    <string name="login">로그인</string>
+    <string name="auto_login">자동로그인</string>
+
+
+
 </resources>
