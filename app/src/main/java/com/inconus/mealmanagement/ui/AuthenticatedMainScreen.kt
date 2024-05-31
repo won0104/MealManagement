@@ -1,8 +1,11 @@
 package com.inconus.mealmanagement.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -31,14 +35,18 @@ fun AuthenticatedMainScreen(
     Scaffold(
         bottomBar = { BottomNavigationBar(localNavController, qrViewModel) }
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            val logoWidth = maxWidth * 0.25f
+            val logoPadding = maxWidth * 0.05f
+            val navHostPaddingTop = logoWidth*0.5f + logoPadding
+
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = stringResource(id = R.string.logoDescription),
                 modifier = Modifier
-                    .align(Alignment.TopStart)  // 이미지를 오른쪽 상단에 배치
-                    .padding(20.dp)
-                    .size(100.dp,30.dp)
+                    .align(Alignment.TopStart)
+                    .padding(logoPadding)
+                    .size(logoWidth ,logoWidth*0.35f)
             )
             MainNavHost(
                 localNavController,
@@ -46,8 +54,8 @@ fun AuthenticatedMainScreen(
                 authViewModel,
                 calculateViewModel,
                 modifier = Modifier
-                    .align(Alignment.BottomStart)  // MainNavHost를 상단 겹치지 않게 배치
-                    .padding(top = 70.dp)  // 이미지와 겹치지 않도록 여유 공간 추가
+                    .align(Alignment.BottomStart)
+                    .padding(top = navHostPaddingTop)
             )
         }
     }

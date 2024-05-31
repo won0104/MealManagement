@@ -1,5 +1,6 @@
 package com.inconus.mealmanagement.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -64,6 +65,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
     }
 
     BoxWithConstraints {
+        Log.d("확인용","login ${maxHeight}")
         val maxWidth = maxWidth
         val commonModifier = Modifier
             .padding(horizontal = maxWidth * 0.05f)
