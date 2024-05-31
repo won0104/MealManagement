@@ -34,9 +34,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inconus.mealmanagement.R
+import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.vm.AuthViewModel
 
 @Composable
@@ -122,12 +124,14 @@ fun LoginScreen(viewModel: AuthViewModel) {
             singleLine = true,
             modifier = commonModifier,
             shape = RoundedCornerShape(10.dp),
+            visualTransformation = PasswordVisualTransformation(), // 비밀번호 가리기
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent
             )
         )
+
 
         Spacer(modifier = Modifier.heightIn(10.dp))
         Row(
@@ -174,6 +178,8 @@ fun LoginScreen(viewModel: AuthViewModel) {
 @Preview
 @Composable
 fun Preview() {
-    val viewModel = AuthViewModel()
-    LoginScreen(viewModel)
+    MealManagementTheme() {
+        val viewModel = AuthViewModel()
+        LoginScreen(viewModel)
+    }
 }

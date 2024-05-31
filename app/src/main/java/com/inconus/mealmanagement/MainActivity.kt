@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         val employeeRepository = EmployeeRepository(db.employeeDao())
         val summaryRepository = SummaryRepository(db.summaryDao())
 
-        val qrViewModelFactory = QrViewModelFactory(employeeRepository, summaryRepository)
+        val qrViewModelFactory = QrViewModelFactory(employeeRepository)
         val calculateViewModelFactory = CalculateViewModelFactory(employeeRepository,summaryRepository)
         val authViewModel: AuthViewModel by viewModels()
         val qrViewModel: QrViewModel by viewModels { qrViewModelFactory }

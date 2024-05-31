@@ -14,9 +14,7 @@ import kotlinx.coroutines.launch
 
 
 class QrViewModel(
-    private var employeeRepository: EmployeeRepository,
-    private var summaryRepository: SummaryRepository
-) : ViewModel() {
+    private var employeeRepository: EmployeeRepository) : ViewModel() {
     // 카메라 권한 관련
     private val _showPermissionDialog = MutableLiveData(false)
     val showPermissionDialog: LiveData<Boolean> = _showPermissionDialog
@@ -95,12 +93,11 @@ class QrViewModel(
 
 class QrViewModelFactory(
     private val employeeRepository: EmployeeRepository,
-    private val summaryRepository: SummaryRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(QrViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return QrViewModel(employeeRepository, summaryRepository) as T
+            return QrViewModel(employeeRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

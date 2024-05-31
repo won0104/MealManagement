@@ -71,7 +71,7 @@ fun CameraAccessRequestScreen(viewModel: QrViewModel, goToQrScanner:()->Unit) {
                     modifier = Modifier.fillMaxSize() // Make the column fill the button
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_qr_code_scanner_24),
+                        painter = painterResource(id = R.drawable.ico_qr_line),
                         contentDescription = "QR 아이콘",
                         modifier = Modifier.size(45.dp) // Size of the icon
                     )
@@ -87,10 +87,6 @@ fun CameraAccessRequestScreen(viewModel: QrViewModel, goToQrScanner:()->Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_warning_amber_24), "경고 아이콘",
-                    modifier = Modifier.size(65.dp)
-                )
 
                 Text(
                     "앱을 사용하기 위해서는 \n카메라 권한이 필요합니다.",

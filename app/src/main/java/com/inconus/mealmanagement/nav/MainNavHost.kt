@@ -23,10 +23,11 @@ fun MainNavHost(
     navController: NavHostController,
     qrViewModel: QrViewModel,
     authViewModel: AuthViewModel,
-    calculateViewModel:CalculateViewModel
+    calculateViewModel:CalculateViewModel,
+    modifier: Modifier = Modifier
 ) {
     NavHost(
-        modifier = Modifier,
+        modifier = modifier,
         navController = navController,
         startDestination = "qrPermission",
     ) {

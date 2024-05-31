@@ -1,6 +1,7 @@
 package com.inconus.mealmanagement.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -17,23 +18,32 @@ val pretendard = FontFamily(
 )
 
 // Set of Material typography styles to start with
-val Typography = Typography(
+val MainTypography = Typography(
     bodyMedium = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
     ),
     bodySmall = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
     ),
     // 버튼
     labelMedium = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
     ),
+    titleSmall = TextStyle(
+        fontFamily = pretendard,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+    )
 
     /* Other default text styles to override
     titleLarge = TextStyle(

@@ -2,6 +2,7 @@ package com.inconus.mealmanagement.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import androidx.compose.material.primarySurface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -18,6 +19,7 @@ private val ColorScheme = lightColorScheme(
     primary = DeepPurple,
     secondary = darkBlue,
     tertiary = BrightRed,
+    surface = Color.White,
 
     /*
     surface = Color(0xFFFFFBFE),
@@ -52,7 +54,7 @@ fun MealManagementTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = MainTypography,
         content = content
     )
 }
