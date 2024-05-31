@@ -13,14 +13,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,7 +36,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inconus.mealmanagement.R
@@ -89,80 +86,32 @@ fun LoginScreen(viewModel: AuthViewModel) {
                 painter = painterResource(R.drawable.logo),
                 contentDescription = stringResource(R.string.logoDescription)
             )
+
             Spacer(modifier = Modifier.height(maxWidth * 0.05f))
+
             Text(
                 stringResource(R.string.app_title),
                 style = MaterialTheme.typography.bodySmall,
             )
+
             Spacer(modifier = Modifier.height(maxWidth * 0.08f))
 
-
-            BasicTextField(
+            CustomBasicTextField(
                 value = userId,
                 onValueChange = { userId = it },
-                singleLine = true,
-                textStyle = MaterialTheme.typography.bodyMedium.copy(
-                    color = if (userId.isEmpty()) Color.Gray else Color.Black
-                ),
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                labelResourceId = R.string.id,
                 modifier = commonModifier
-                    .background(
-                        Color.White,
-                        RoundedCornerShape(10.dp)
-                    )
-                    .padding(vertical = 16.dp, horizontal = 20.dp)
-                    .fillMaxWidth(),
-                decorationBox = { innerTextField ->
-                    Box(contentAlignment = Alignment.CenterStart) {
-                        if (userId.isEmpty()) {
-                            Text(
-                                stringResource(id = R.string.id),
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    color = Color(
-                                        0xFFA8A8A8
-                                    )
-                                ),
-                                modifier = Modifier.padding(start = 4.dp)
-                            )
-                        }
-                        innerTextField()
-                    }
-                }
             )
 
 
             Spacer(modifier = Modifier.height(maxWidth * 0.02f))
 
-            BasicTextField(
+            CustomBasicTextField(
                 value = userPassword,
                 onValueChange = { userPassword = it },
-                singleLine = true,
-                textStyle = MaterialTheme.typography.bodyMedium.copy(
-                    color = if (userPassword.isEmpty()) Color.Gray else Color.Black  // 입력에 따라 색상 변경
-                ),
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                visualTransformation = PasswordVisualTransformation(),  // 비밀번호 가리기
+                labelResourceId = R.string.pw,
+                isPassword = true,
                 modifier = commonModifier
-                    .background(
-                        Color.White,
-                        RoundedCornerShape(10.dp)
-                    )
-                    .padding(vertical = 16.dp, horizontal = 20.dp)
-                    .fillMaxWidth(),
-                decorationBox = { innerTextField ->
-                    Box(contentAlignment = Alignment.CenterStart) {
-                        if (userPassword.isEmpty()) {
-                            Text(
-                                stringResource(id = R.string.pw), // 라벨 텍스트
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    color = Color(0xFFA8A8A8)
-                                ),
-                                modifier = Modifier.padding(start = 4.dp)
-                            )
-                        }
-                        innerTextField()
-                    }
-                }
             )
 
 
@@ -204,18 +153,55 @@ fun LoginScreen(viewModel: AuthViewModel) {
             ) {
                 Text(stringResource(R.string.login))
             }
-            Spacer(modifier = Modifier.height(maxWidth * 0.05f))
         }
     }
 }
 
+@Composable
+fun CustomBasicTextField(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    labelResourceId: Int,
+    isPassword: Boolean = false,
+) {
+    BoxWithConstraints(modifier = modifier) {
+        val textStyle = MaterialTheme.typography.bodyMedium.copy(color = if (value.isEmpty()) Color.Gray else Color.Black)
+        val visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None
+
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            singleLine = true,
+            textStyle = textStyle,
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+            visualTransformation = visualTransformation,
+            modifier = Modifier
+                .background(Color.White, RoundedCornerShape(10.dp))
+                .padding(vertical = 16.dp, horizontal =  maxWidth * 0.05f)
+                .fillMaxWidth(),
+            decorationBox = { innerTextField ->
+                Box(contentAlignment = Alignment.CenterStart) {
+                    if (value.isEmpty()) {
+                        Text(
+                            text = stringResource(id = labelResourceId),
+                            style = textStyle.copy(color = Color(0xFFA8A8A8)),
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
+                    innerTextField()
+                }
+            }
+        )
+    }
+}
 
 
 
 @Preview
 @Composable
 fun Preview() {
-    MealManagementTheme() {
+    MealManagementTheme {
         val viewModel = AuthViewModel()
         LoginScreen(viewModel)
     }
