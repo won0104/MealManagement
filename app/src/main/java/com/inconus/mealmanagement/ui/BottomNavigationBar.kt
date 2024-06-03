@@ -3,6 +3,7 @@ package com.inconus.mealmanagement.ui
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
@@ -41,7 +42,7 @@ fun BottomNavigationBar(navController: NavHostController, qrViewModel: QrViewMod
                         painter = if (isSelected) screen.iconSelected.invoke() else screen.iconUnselected.invoke(),
                         contentDescription = null,
                         tint = if (isSelected) MaterialTheme.colorScheme.primary else Color.Black,
-                        modifier = Modifier.padding(bottom = 5.dp)
+                        modifier = Modifier.padding(bottom = 5.dp).size(20.dp)
                     )
                 },
                 label = {

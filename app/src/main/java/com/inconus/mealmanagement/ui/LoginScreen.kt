@@ -86,7 +86,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
         ) {
             Image(
                 painter = painterResource(R.drawable.logo),
-                contentDescription = stringResource(R.string.logoDescription)
+                contentDescription = stringResource(R.string.logo_description)
             )
 
             Spacer(modifier = Modifier.height(maxWidth * 0.05f))

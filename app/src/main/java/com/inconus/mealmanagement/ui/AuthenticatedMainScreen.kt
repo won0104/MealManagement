@@ -1,10 +1,7 @@
 package com.inconus.mealmanagement.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -13,10 +10,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.inconus.mealmanagement.R
 import com.inconus.mealmanagement.nav.MainNavHost
@@ -42,7 +37,7 @@ fun AuthenticatedMainScreen(
 
             Image(
                 painter = painterResource(id = R.drawable.logo),
-                contentDescription = stringResource(id = R.string.logoDescription),
+                contentDescription = stringResource(id = R.string.logo_description),
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(logoPadding)
