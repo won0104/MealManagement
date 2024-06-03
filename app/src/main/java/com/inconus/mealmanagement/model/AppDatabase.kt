@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Employee::class, Summary::class], version = 2)
+@Database(entities = [Employee::class, Summary::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun employeeDao(): EmployeeDao
     abstract fun summaryDao(): SummaryDao
@@ -23,7 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "app_database"
                 )
-                    .addMigrations(MIGRATION_1_2)  // 필요한 마이그레이션을 추가합니다.
+                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3)  // 필요한 마이그레이션을 추가합니다.
                     .build()
                 INSTANCE = instance
                 instance
@@ -55,6 +55,14 @@ abstract class AppDatabase : RoomDatabase() {
 
                 // 4. 임시 테이블을 기존 테이블로 변경
                 db.execSQL("ALTER TABLE employee_records_temp RENAME TO employee_records")
+            }
+        }
+
+        // 버전 2에서 3으로 마이그레이션
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // 'record_summaries' 테이블에 'price' 컬럼 추가
+                db.execSQL("ALTER TABLE record_summaries ADD COLUMN price INTEGER NOT NULL DEFAULT 0")
             }
         }
     }
