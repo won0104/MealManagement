@@ -22,4 +22,7 @@
     <string name="permission_dialog_contents2">휴대폰 설정 > 애플리케이션 관리자</string>
     <string name="permission_dialog_contents3">에서 해당 앱의 권한을 허용해주세요.</string>
     <string name="setting">설정</string>
+
+    <!-- Calculate -->
+    <string name="month_year_format">YYYY년 MM월</string>
 </resources>

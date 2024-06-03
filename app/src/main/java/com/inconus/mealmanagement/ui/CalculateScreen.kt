@@ -42,12 +42,6 @@ fun CalculateScreen(viewModel: CalculateViewModel) {
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "정산 관리",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-        )
-
         // 월 선택기
         MonthSelector(selectedCalendar) { newCalendar ->
             viewModel.updateSelectedCalendar(newCalendar)
