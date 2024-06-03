@@ -43,6 +43,18 @@ val MainTypography = Typography(
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 20.sp,
+    ),
+    titleMedium = TextStyle(
+        fontFamily = pretendard,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        lineHeight = 16.sp,
+    ),
+    labelSmall = TextStyle(
+        fontFamily = pretendard,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        lineHeight = 20.sp
     )
 
     /* Other default text styles to override

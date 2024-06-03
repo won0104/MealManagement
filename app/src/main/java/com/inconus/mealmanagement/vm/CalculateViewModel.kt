@@ -17,24 +17,6 @@ class CalculateViewModel(
     private var employeeRepository: EmployeeRepository,
     private var summaryRepository: SummaryRepository
 ) : ViewModel() {
-
-    // 현재 날짜와 시간을 구하고, yyyyMMdd 형식으로 포맷
-//    private val currentDate: LocalDateTime = LocalDateTime.now()
-//    private val formatter = DateTimeFormatter.ofPattern("yyyyMMdd")
-//    private val formattedDate = currentDate.format(formatter).toLong()
-
-    // 스캔된 직원 정보
-//    private val _employees = MutableLiveData<List<Employee>>()
-
-    // 스캔된 직원 정보를 DB에 로드
-//    private fun loadEmployees() {
-//        viewModelScope.launch {
-//            val recordList = employeeRepository.getRecordsByDate(formattedDate)
-//            _employees.postValue(recordList)
-//        }
-//    }
-
-
     // 데이터 받아와야 하는 월
     private val _selectedCalendar = MutableLiveData(Calendar.getInstance())
     val selectedCalendar: LiveData<Calendar> = _selectedCalendar
@@ -58,8 +40,13 @@ class CalculateViewModel(
     }
 
     // 해당 월의 총 인원 계산
-    val totalSummaryCount: LiveData<Int> = summaries.map{ summaries ->
+    val totalCount: LiveData<Int> = summaries.map{ summaries ->
         summaries.sumOf { it.count }
+    }
+
+    // 해당 월의 총 금액 계산
+    val totalAmount: LiveData<Int> = summaries.map { summaries ->
+        summaries.sumOf { it.count * it.price }
     }
 
     // 이전의 기록과 달라진 요약 정보가 있다면 DB에 업데이트
