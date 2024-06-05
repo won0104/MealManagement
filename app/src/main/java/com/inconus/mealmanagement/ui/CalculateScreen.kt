@@ -4,12 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,13 +22,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.inconus.mealmanagement.R
 import com.inconus.mealmanagement.model.Summary
 import com.inconus.mealmanagement.util.MonthSelector
@@ -48,106 +48,141 @@ fun CalculateScreen(viewModel: CalculateViewModel) {
     LaunchedEffect(true) {
         viewModel.updateSummary()
     }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // 월 선택기
-        MonthSelector(selectedCalendar) { newCalendar ->
-            viewModel.updateSelectedCalendar(newCalendar)
-        }
-
-        // 총 금액 출력
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp)
-            .background(Color.White,RoundedCornerShape(10.dp))
-            .border(1.dp, Color(0xFFD9D9D9),RoundedCornerShape(10.dp))
+    BoxWithConstraints {
+        val padding20 = (maxWidth.value * 0.05f).dp.coerceAtLeast(10.dp)
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
+            // 월 선택기
+            MonthSelector(selectedCalendar) { newCalendar ->
+                viewModel.updateSelectedCalendar(newCalendar)
+            }
+
+            // 총 금액 출력
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp,20.dp,20.dp,0.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(padding20)
+                    .background(Color.White, RoundedCornerShape(10.dp))
+                    .border(1.dp, Color(0xFFD9D9D9), RoundedCornerShape(10.dp))
             ) {
-                Text(stringResource(id = R.string.total_people_count_label), style = MaterialTheme.typography.bodyMedium.copy(color=Color(0xFF787878)))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(padding20, padding20, padding20, 0.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        stringResource(id = R.string.total_people_count_label),
+                        style = MaterialTheme.typography.bodyMedium.copy(colorResource(R.color.gray))
+                    )
 
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold,
-                            )
-                        ) {
-                            append("$totalCount")
-                        }
-                        append(stringResource(id = R.string.unit_people))
+                    Text(
+                        text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold,
+                                )
+                            ) {
+                                append("$totalCount")
+                            }
+                            append(stringResource(id = R.string.unit_people))
 
-                    },
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(padding20, padding20 * 0.5f, padding20, padding20),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        stringResource(id = R.string.total_amount_label),
+                        style = MaterialTheme.typography.bodyMedium.copy(colorResource(R.color.gray))
+                    )
+                    Text(
+                        text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ) {
+                                append("$totalAmount")
+                            }
+                            append(stringResource(id = R.string.unit_currency))
+                        },
+                        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.tertiary)
+                    )
+                }
             }
-            Row(
+
+            LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp,10.dp,20.dp,20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .weight(0.9f)
+                    .padding(padding20,0.dp,padding20,padding20)
             ) {
-                Text(stringResource(id = R.string.total_amount_label), style = MaterialTheme.typography.bodyMedium.copy(color=Color(0xFF787878)))
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append("$totalAmount")
-                        }
-                        append(stringResource(id = R.string.unit_currency))
-                    },
-                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.tertiary)
-                )
+                items(summaries.size) { index ->
+                    CalculateCard(record = summaries[index])
+                }
             }
+            Box(modifier = Modifier.weight(0.1f))
         }
-
-        LazyColumn(
-            modifier = Modifier
-                .weight(0.9f)
-                .padding(16.dp)
-        ) {
-            items(summaries.size) { index ->
-                CalculateCard(record = summaries[index])
-            }
-        }
-        Box(modifier = Modifier.weight(0.1f))
     }
 }
 
 @Composable
 fun CalculateCard(record: Summary) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 10.dp),
-        backgroundColor = Color(0xFFE0D5E6)
-    ) {
-        Column(
+    BoxWithConstraints {
+        val padding20 = (maxWidth.value * 0.05f).dp.coerceAtLeast(10.dp)
+        val padding10 = (maxWidth.value * 0.025f).dp.coerceAtLeast(5.dp)
+        Card(
             modifier = Modifier
-                .padding(16.dp)
+                .fillMaxWidth()
+                .padding(bottom = padding10),
+            backgroundColor = Color.White,
+            shape = RoundedCornerShape(8.dp)
         ) {
-            Text(
-                text = convertDate(record.date),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "식수 인원: ${record.count}명",
-            )
-            Text(
-                text = "총액: ${record.count * record.price}원",
-            )
+            Column(
+            ) {
+                Text(
+                    modifier = Modifier.padding(start = padding20, top = padding20),
+                    text = convertDate(record.date) + stringResource(id = R.string.unit_date),
+                    style = MaterialTheme.typography.labelSmall,
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(padding20, padding10, padding20, 0.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.people_count_label),
+                        style = MaterialTheme.typography.bodySmall.copy(colorResource(R.color.gray))
+                    )
+                    Text(
+                        "${record.count}" + stringResource(R.string.unit_people),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(padding20, padding10, padding20, padding20),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.amount_label),
+                        style = MaterialTheme.typography.bodySmall.copy(colorResource(R.color.gray))
+                    )
+                    Text(
+                        "${record.count * record.price}" + stringResource(R.string.unit_currency),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
         }
     }
 }
