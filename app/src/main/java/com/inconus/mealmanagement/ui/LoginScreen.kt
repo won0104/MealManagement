@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,6 +53,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
     val showDialog = remember { mutableStateOf(false) }
     var autoLogin by remember { mutableStateOf(false) } // 기능 구현 X
     val focusManager = LocalFocusManager.current
+
 
     //Error 발생시 다이얼로그 표시
     LaunchedEffect(errorMessage) {
