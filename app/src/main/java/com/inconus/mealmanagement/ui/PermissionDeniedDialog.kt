@@ -89,7 +89,7 @@ fun PermissionDeniedDialog(
                         modifier = Modifier
                             .fillMaxSize()
                             .weight(0.5f),
-                        shape = RoundedCornerShape(0.dp,0.dp,0.dp,10.dp),
+                        shape = RoundedCornerShape(bottomStart = 10.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE8E8E8))
                     ) {
                         Text(stringResource(id = R.string.close), style = MaterialTheme.typography.labelMedium, color = Color.Black)
@@ -99,7 +99,7 @@ fun PermissionDeniedDialog(
                         modifier = Modifier
                             .fillMaxSize()
                             .weight(0.5f),
-                        shape = RoundedCornerShape(0.dp,0.dp,10.dp,0.dp)
+                        shape = RoundedCornerShape(bottomEnd = 10.dp)
                     ) {
                         Text(stringResource(id = R.string.setting),style = MaterialTheme.typography.labelMedium)
                     }

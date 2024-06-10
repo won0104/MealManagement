@@ -40,4 +40,19 @@
     <string name="version_info">버전 정보</string>
     <string name="logout">로그아웃</string>
     <string name="logout_success">로그아웃 되었습니다.</string>
+    <string name="contract_content">계약 번호: 123456\n
+                                        "계약일: 24.06.10\n\n"
+                                        "공급자\n"
+                                        "상호: 인코누스 식당\n"
+                                        "주소: [식당 주소]\n"
+                                        "연락처: [식당 연락처]\n\n"
+                                        "수요자\n"
+                                        "회사명: 강남앤인코누스\n"
+                                        "주소: [회사 주소]\n"
+                                        "연락처: [회사 연락처]"
+                                        "\n\n결제 조건\n"
+                                        "식사 비용은 8,000원으로 합니다.\n"
+                                        "수요자는 매월 10일에 전월의 식사 비용을 지불합니다.\n\n"
+                                        "계약 기간\n"
+                                        "이 계약의 유효 기간은 24.06.10 부터 25.06.10 까지입니다.\n"</string>
 </resources>
