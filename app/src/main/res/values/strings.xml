@@ -55,4 +55,8 @@
                                         "수요자는 매월 10일에 전월의 식사 비용을 지불합니다.\n\n"
                                         "계약 기간\n"
                                         "이 계약의 유효 기간은 24.06.10 부터 25.06.10 까지입니다.\n"</string>
+    <!-- ProfileEditDialog -->
+    <string name="update">수정하기</string>
+    <string name="update_name">식당 이름</string>
+    <string name="update_phone">연락처</string>
 </resources>

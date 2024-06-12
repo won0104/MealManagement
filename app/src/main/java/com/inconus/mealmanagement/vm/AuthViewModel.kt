@@ -40,6 +40,12 @@ class AuthViewModel : ViewModel() {
         _userPassword.value = userPassword
     }
 
+    fun updateUserInfo(userName: String,userPhone: String){
+        // 추가 구현 필요..
+        _name.value = userName
+        _userId.value =userPhone
+    }
+
     private var _name = MutableLiveData<String>()
     val name: LiveData<String> = _name
 
