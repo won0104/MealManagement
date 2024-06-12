@@ -13,7 +13,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.inconus.mealmanagement.ui.CalculateScreen
 import com.inconus.mealmanagement.ui.CameraAccessRequestScreen
 import com.inconus.mealmanagement.ui.MyPageScreen
-import com.inconus.mealmanagement.ui.QrScanningScreen
 import com.inconus.mealmanagement.vm.AuthViewModel
 import com.inconus.mealmanagement.vm.CalculateViewModel
 import com.inconus.mealmanagement.vm.QrViewModel
@@ -41,17 +40,7 @@ fun MainNavHost(
             }
         )
         {
-            CameraAccessRequestScreen(qrViewModel) { navController.navigate("qrScanner") }
-        }
-        composable(route = "qrScanner",
-            enterTransition = {
-                EnterTransition.None
-            },
-            exitTransition = {
-                ExitTransition.None
-            })
-        {
-            QrScanningScreen(qrViewModel){navController.navigate("qrPermission") }
+            CameraAccessRequestScreen(qrViewModel)
         }
         composable("calculate",
             enterTransition = {

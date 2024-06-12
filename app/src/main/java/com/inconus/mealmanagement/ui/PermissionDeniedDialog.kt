@@ -38,11 +38,11 @@ import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 
 @Composable
 fun PermissionDeniedDialog(
-    showDialog: MutableState<Boolean>,
+    showDialog: Boolean,
     onDismiss: () -> Unit,
     onGoToSettings: () -> Unit
 ) {
-    if (showDialog.value) {
+    if (showDialog) {
         Dialog(onDismissRequest = { onDismiss() }) {
             Column(
                 modifier = Modifier
@@ -115,7 +115,7 @@ fun PermissionDeniedDialog(
 @Composable
 fun PreviewPermissionDialog() {
     MealManagementTheme {
-        val showDialog = mutableStateOf(true)
+        val showDialog = true
         PermissionDeniedDialog(showDialog, {}) {}
     }
 }

@@ -38,6 +38,13 @@ val MainTypography = Typography(
         fontSize = 16.sp,
         lineHeight = 20.sp,
     ),
+    labelLarge = TextStyle(
+        fontFamily = pretendard,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+        lineHeight = 20.sp,
+    ),
+
     titleSmall = TextStyle(
         fontFamily = pretendard,
         fontWeight = FontWeight.SemiBold,

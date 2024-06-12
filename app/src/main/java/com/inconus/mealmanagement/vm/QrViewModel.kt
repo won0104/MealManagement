@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.inconus.mealmanagement.model.Employee
 import com.inconus.mealmanagement.model.EmployeeRepository
-import com.inconus.mealmanagement.model.SummaryRepository
 import kotlinx.coroutines.launch
 
 
@@ -87,8 +86,14 @@ class QrViewModel(
         }
     }
 
-//    private val _duplication = MutableLiveData<Boolean>()
-//    val duplication: LiveData<Boolean> = _duplication
+    private val _processScan = MutableLiveData<Boolean>()
+    val processScan: LiveData<Boolean> = _processScan
+
+    fun updateProcessScan(processScan : Boolean){
+        _processScan.value=processScan
+    }
+
+
 }
 
 class QrViewModelFactory(
