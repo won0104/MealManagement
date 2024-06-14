@@ -23,7 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "app_database"
                 )
-                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3)  // 필요한 마이그레이션을 추가합니다.
+                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3)
                     .build()
                 INSTANCE = instance
                 instance

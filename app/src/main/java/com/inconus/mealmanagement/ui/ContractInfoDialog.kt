@@ -27,7 +27,7 @@ import com.inconus.mealmanagement.R
 fun ContractInfoDialog(showContractInfo: Boolean, onClose: () -> Unit) {
     if (showContractInfo) {
         Dialog(onDismissRequest = onClose) {
-            Column(modifier = Modifier.fillMaxWidth().padding(20.dp)) {
+            Column(modifier = Modifier.fillMaxWidth().padding(0.dp)) {
                 Column(
                     modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).background(
                         Color.White),

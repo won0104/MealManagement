@@ -4,12 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.inconus.mealmanagement.test.PushTestResponse
-import com.inconus.mealmanagement.test.TestRepository
-import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
+import com.inconus.mealmanagement.auth.UserPreferences
 
 class TestViewModel(application: Application) : AndroidViewModel(application) {
-    private val tokenProvider = SharedPreferencesTokenProvider(application.applicationContext)
+    private val tokenProvider = UserPreferences(application.applicationContext)
     private val repository = TestRepository()
 
     private val _errorMessage = MutableLiveData<String>()

@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.inconus.mealmanagement.auth.UserPreferences
 import com.inconus.mealmanagement.model.AppDatabase
 import com.inconus.mealmanagement.model.EmployeeRepository
 import com.inconus.mealmanagement.model.SummaryRepository
@@ -22,6 +23,7 @@ import com.inconus.mealmanagement.ui.AuthenticatedMainScreen
 import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.ui.LoginScreen
 import com.inconus.mealmanagement.vm.AuthViewModel
+import com.inconus.mealmanagement.vm.AuthViewModelFactory
 import com.inconus.mealmanagement.vm.CalculateViewModel
 import com.inconus.mealmanagement.vm.CalculateViewModelFactory
 import com.inconus.mealmanagement.vm.QrViewModel
@@ -34,11 +36,15 @@ class MainActivity : ComponentActivity() {
         val db = AppDatabase.getDatabase(application)
         val employeeRepository = EmployeeRepository(db.employeeDao())
         val summaryRepository = SummaryRepository(db.summaryDao())
+        val userPreferences = UserPreferences(applicationContext)
 
         val qrViewModelFactory = QrViewModelFactory(employeeRepository)
         val calculateViewModelFactory =
             CalculateViewModelFactory(employeeRepository, summaryRepository)
-        val authViewModel: AuthViewModel by viewModels()
+        val authViewModelFactory = AuthViewModelFactory(userPreferences)
+
+        val authViewModel: AuthViewModel by viewModels() {authViewModelFactory}
+        authViewModel.autoLogin()
         val qrViewModel: QrViewModel by viewModels { qrViewModelFactory }
         val calculateViewModel: CalculateViewModel by viewModels { calculateViewModelFactory }
 

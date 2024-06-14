@@ -1,13 +1,11 @@
 package com.inconus.mealmanagement.auth
 
 import com.inconus.mealmanagement.RetrofitClient
-import com.inconus.mealmanagement.test.PushTestResponse
-import com.inconus.mealmanagement.util.SharedPreferencesTokenProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AuthRepository (private val tokenProvider: SharedPreferencesTokenProvider){
+class AuthRepository (private val userPreferences: UserPreferences){
 
     private val apiService: UserService = RetrofitClient.retrofit.create(UserService::class.java)
 
@@ -18,7 +16,8 @@ class AuthRepository (private val tokenProvider: SharedPreferencesTokenProvider)
                     val responseBody = response.body()
                     if (responseBody != null && responseBody.result == 0) {
                         onSuccess(responseBody)
-                        tokenProvider.setToken(responseBody.userDetails.firstOrNull()?.token ?: "")
+                        // 토큰 저장
+                        userPreferences.setToken(responseBody.userDetails.firstOrNull()?.token ?: "")
                     } else { // result가 -1일때
                         onError("로그인 실패 \n ${response.body()?.errorMessage}")
                     }

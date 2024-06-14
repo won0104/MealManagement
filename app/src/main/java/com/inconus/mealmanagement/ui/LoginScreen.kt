@@ -51,7 +51,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
     var userPassword by remember { mutableStateOf("5107") }
     val errorMessage by viewModel.errorMessage.observeAsState("")
     val showDialog = remember { mutableStateOf(false) }
-    var autoLogin by remember { mutableStateOf(false) } // 기능 구현 X
+    var autoLogin by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
 
@@ -152,7 +152,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
                 onClick = {
                     viewModel.updateUserId(userId)
                     viewModel.updateUserPassword(userPassword)
-                    viewModel.loginUser()
+                    viewModel.loginUser(autoLogin)
                 }
             ) {
                 Text(stringResource(R.string.login))
@@ -206,7 +206,6 @@ fun CustomBasicTextField(
 @Composable
 fun Preview() {
     MealManagementTheme {
-        val viewModel = AuthViewModel()
-        LoginScreen(viewModel)
+
     }
 }

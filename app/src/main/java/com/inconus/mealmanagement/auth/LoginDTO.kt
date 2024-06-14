@@ -19,5 +19,4 @@ data class UserDetails(
     val userId: String,
     val name: String,
     val token: String,
-    val companyName: String
 )
