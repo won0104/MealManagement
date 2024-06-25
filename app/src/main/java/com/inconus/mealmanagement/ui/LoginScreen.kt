@@ -33,27 +33,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.inconus.mealmanagement.R
-import com.inconus.mealmanagement.ui.theme.MealManagementTheme
 import com.inconus.mealmanagement.vm.AuthViewModel
 
 @Composable
 fun LoginScreen(viewModel: AuthViewModel) {
-    var userId by remember { mutableStateOf("01044455107") }
-    var userPassword by remember { mutableStateOf("5107") }
+    var userId by remember { mutableStateOf("") }
+    var userPassword by remember { mutableStateOf("") }
     val errorMessage by viewModel.errorMessage.observeAsState("")
     val showDialog = remember { mutableStateOf(false) }
     var autoLogin by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
-
 
     //Error 발생시 다이얼로그 표시
     LaunchedEffect(errorMessage) {
@@ -67,7 +63,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
     }
 
     BoxWithConstraints {
-        Log.d("확인용","login ${maxHeight}")
+        Log.d("확인용","login $maxHeight")
         val maxWidth = maxWidth
         val commonModifier = Modifier
             .padding(horizontal = maxWidth * 0.05f)
@@ -106,10 +102,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
                 labelResourceId = R.string.id,
                 modifier = commonModifier
             )
-
-
             Spacer(modifier = Modifier.height(maxWidth * 0.02f))
-
             CustomBasicTextField(
                 value = userPassword,
                 onValueChange = { userPassword = it },
@@ -117,17 +110,14 @@ fun LoginScreen(viewModel: AuthViewModel) {
                 isPassword = true,
                 modifier = commonModifier
             )
-
-
             Spacer(modifier = Modifier.height(maxWidth * 0.03f))
-
+            // 자동 로그인
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = maxWidth * 0.05f)
-
             ) {
                 Checkbox(
                     checked = autoLogin,
@@ -143,9 +133,7 @@ fun LoginScreen(viewModel: AuthViewModel) {
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-
             Spacer(modifier = Modifier.height(maxWidth * 0.03f))
-
             Button(
                 modifier = commonModifier,
                 shape = RoundedCornerShape(12.dp),
@@ -197,15 +185,5 @@ fun CustomBasicTextField(
                 }
             }
         )
-    }
-}
-
-
-
-@Preview
-@Composable
-fun Preview() {
-    MealManagementTheme {
-
     }
 }

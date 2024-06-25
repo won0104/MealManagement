@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.inconus.mealmanagement.R
 
-// 계약 정보 다이얼로
+// 계약 정보 다이얼로그
 @Composable
 fun ContractInfoDialog(showContractInfo: Boolean, onClose: () -> Unit) {
     if (showContractInfo) {

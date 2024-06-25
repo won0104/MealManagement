@@ -22,7 +22,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -33,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import com.inconus.mealmanagement.R
 import com.inconus.mealmanagement.util.manageCameraPermission
@@ -52,11 +52,13 @@ fun CameraAccessRequestScreen(viewModel: QrViewModel) {
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val maxWidth = maxWidth.value
-        val padding20 = (maxWidth * 0.05f).dp.coerceAtLeast(10.dp)
+        val padding20 = (maxWidth * 0.05f).dp.coerceAtLeast(10.dp).coerceAtMost(30.dp)
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-            if (cameraPermission) { // 카메라 권한이 있을 때
+            // 카메라 권한 확인 후 사용자에게 표시할 화면을 결정
+            if (cameraPermission) {
+                // 권한이 있을 경우, QR 스캔 스크린을 표시
                 Column(
                     Modifier
                         .fillMaxWidth()
@@ -69,7 +71,8 @@ fun CameraAccessRequestScreen(viewModel: QrViewModel) {
                 ) {
                     QrScanningScreen(viewModel) { viewModel.updateProcessScan(false) }
                 }
-            } else { // QR 권한이 없을 때
+            } else {
+                // 권한이 없을 경우, 권한 요청 메시지와 설정으로 이동하는 버튼을 표시
                 Column(
                     Modifier
                         .fillMaxWidth()

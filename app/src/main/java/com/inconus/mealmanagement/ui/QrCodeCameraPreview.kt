@@ -79,7 +79,7 @@ fun QrCodeCameraPreview(
     DisposableEffect(lifecycleOwner) {
         onDispose {
             val cameraProvider = cameraProviderFuture.get()
-            cameraProvider.unbindAll()  // 컴포저블이 제거될 때 카메라 리소스를 해제합니다.
+            cameraProvider.unbindAll()  // 컴포저블이 제거될 때 카메라 리소스를 해제
         }
     }
 

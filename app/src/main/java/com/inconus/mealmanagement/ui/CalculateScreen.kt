@@ -28,7 +28,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.inconus.mealmanagement.R
 import com.inconus.mealmanagement.model.Summary
@@ -48,13 +47,14 @@ fun CalculateScreen(viewModel: CalculateViewModel) {
     LaunchedEffect(true) {
         viewModel.updateSummary()
     }
+
     BoxWithConstraints {
         val padding20 = (maxWidth.value * 0.05f).dp.coerceAtLeast(10.dp)
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // 월 선택기
+            // 사용자가 날짜를 선택할 수 있는 UI 컴포넌트
             MonthSelector(selectedCalendar) { newCalendar ->
                 viewModel.updateSelectedCalendar(newCalendar)
             }

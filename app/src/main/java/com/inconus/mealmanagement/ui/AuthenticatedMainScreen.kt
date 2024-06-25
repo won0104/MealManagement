@@ -19,6 +19,7 @@ import com.inconus.mealmanagement.vm.AuthViewModel
 import com.inconus.mealmanagement.vm.CalculateViewModel
 import com.inconus.mealmanagement.vm.QrViewModel
 
+// 로고, 로그인 화면 제외 나머지 화면 (QR 인식, 정산, 마이페이지)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AuthenticatedMainScreen(

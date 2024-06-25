@@ -17,12 +17,7 @@ import com.inconus.mealmanagement.auth.UserPreferences
 class AuthViewModel(private val userPreferences: UserPreferences) : ViewModel() {
 
     // token
-    //private val userPreferences = UserPreferences(MyApplication.instance)
     private val repository = AuthRepository(userPreferences)
-
-//    init{
-//        autoLogin()
-//    }
 
     fun initRetrofitClient() {
         RetrofitClient.setTokenProvider(userPreferences)
